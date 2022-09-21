@@ -1,9 +1,12 @@
 package com.regicide;
 
+import java.io.File;
+
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Interpolation;
 
 public class MusicInterpolator {
@@ -30,27 +33,27 @@ public class MusicInterpolator {
      * Initialized with default values of a fade time of 1 second,
      * and maximum volume of 1.f (volume at 100 %).
      * 
-     * @param path1 Internal path to first song.
-     * @param path2 Internal path to second song.
+     * @param handle1 FileHandle to first song.
+     * @param handle2 FileHandle to second song.
      */
-    public MusicInterpolator(String path1, String path2) {
-        this(path1, path2, 1.0f, 1.0f);
+    public MusicInterpolator(FileHandle handle1, FileHandle handle2) {
+        this(handle1, handle2, 1.0f, 1.0f);
     }
 
     /**
      * Creates a new MusicInterpolator with two songs.
      * It can smoothly fade in/out between the songs.
      * 
-     * @param path1    Internal path to first song.
-     * @param path2    Internal path to second song.
+     * @param handle1  FileHandle to first song.
+     * @param handle2  FileHandle to second song.
      * @param fadeTime Time taken to fade between two songs in seconds.
      * @param volume   Volume the songs can be played at. Ranges from 0 to 1.
      */
-    public MusicInterpolator(String path1, String path2, float fadeTime, float volume) {
-        song1 = Gdx.audio.newMusic(Gdx.files.internal(path1));
+    public MusicInterpolator(FileHandle handle1, FileHandle handle2, float fadeTime, float volume) {
+        song1 = Gdx.audio.newMusic(handle1);
         song1.setLooping(true);
         song1.setVolume(volume);
-        song2 = Gdx.audio.newMusic(Gdx.files.internal(path2));
+        song2 = Gdx.audio.newMusic(handle2);
         song2.setLooping(true);
         song2.setVolume(volume);
 
