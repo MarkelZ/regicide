@@ -1,13 +1,8 @@
 package com.regicide;
 
-import java.io.File;
-
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Interpolation;
 
 public class MusicInterpolator {
     public enum SongChoice {
@@ -22,8 +17,8 @@ public class MusicInterpolator {
     private float fadeTime;
     private float volume;
 
-    private SongChoice currentSong;
-    private SongChoice nextSong;
+    private SongChoice currentChoice;
+    private SongChoice nextChoice;
     private boolean isInterpolating;
     private boolean isPlaying;
 
@@ -61,8 +56,8 @@ public class MusicInterpolator {
         this.fadeTime = fadeTime;
         this.volume = volume;
 
-        currentSong = SongChoice.S1;
-        nextSong = currentSong;
+        currentChoice = SongChoice.S1;
+        nextChoice = currentChoice;
         isInterpolating = false;
         isPlaying = false;
     }
@@ -75,16 +70,16 @@ public class MusicInterpolator {
         // If isInterpolating, update timer and interpolate between songs
         if (isInterpolating) {
             timer += tdelta;
-            if (currentSong == SongChoice.S1)
+            if (currentChoice == SongChoice.S1)
                 interpolate(song1, song2);
             else
                 interpolate(song2, song1);
 
             // If not interpolating, check if nextSong is different from current song,
             // and if so, start interpolating between the current song and the next one
-        } else if (nextSong != currentSong) {
-            currentSong = nextSong;
-            if (nextSong == SongChoice.S1)
+        } else if (nextChoice != currentChoice) {
+            currentChoice = nextChoice;
+            if (nextChoice == SongChoice.S1)
                 startInterpolation(song1, song2);
             else
                 startInterpolation(song2, song1);
@@ -130,27 +125,31 @@ public class MusicInterpolator {
      */
     public void changeToSong(SongChoice choice) {
         if (choice != null)
-            nextSong = choice;
+            nextChoice = choice;
     }
 
     // Play or resume play.
     // If it was paused while interpolating, it is resumed.
     public void play() {
-        Music song = currentSong == SongChoice.S1 ? song1 : song2;
-        Music other = currentSong == SongChoice.S1 ? song2 : song1;
         isPlaying = true;
-        song.play();
+        getCurrentSong().play();
         if (isInterpolating)
-            other.play();
+            getOtherSong().play();
     }
 
     // Pause music and interpolation.
     public void pause() {
-        Music song = currentSong == SongChoice.S1 ? song1 : song2;
-        Music other = currentSong == SongChoice.S1 ? song2 : song1;
         isPlaying = false;
-        song.pause();
-        other.pause();
+        getCurrentSong().pause();
+        getOtherSong().pause();
+    }
+
+    private Music getCurrentSong() {
+        return currentChoice == SongChoice.S1 ? song1 : song2;
+    }
+
+    private Music getOtherSong() {
+        return currentChoice == SongChoice.S1 ? song2 : song1;
     }
 
     // Getters and setters
@@ -175,15 +174,13 @@ public class MusicInterpolator {
             volume = value;
 
         if (!isInterpolating) {
-            Music song = currentSong == SongChoice.S1 ? song1 : song2;
-            song.setVolume(volume);
+            getCurrentSong().setVolume(volume);
         }
     }
 
     // Get playback position in seconds.
     public float getPosition() {
-        Music song = currentSong == SongChoice.S1 ? song1 : song2;
-        return song.getPosition();
+        return getCurrentSong().getPosition();
     }
 
     // Get time taken to fade in/out between songs.
@@ -204,7 +201,7 @@ public class MusicInterpolator {
         return isInterpolating;
     }
 
-    public SongChoice getCurrentSong() {
-        return currentSong;
+    public SongChoice getCurrentSongChoice() {
+        return currentChoice;
     }
 }
