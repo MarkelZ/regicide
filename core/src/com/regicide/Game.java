@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.regicide.MusicInterpolator.SongChoice;
+import com.regicide.music.MusicInterpolator;
+import com.regicide.music.MusicInterpolator.SongChoice;
 
 public class Game extends ApplicationAdapter {
 	public static int WIDTH = 360;
