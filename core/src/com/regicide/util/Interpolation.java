@@ -1,4 +1,4 @@
-package com.regicide.algo;
+package com.regicide.util;
 
 public class Interpolation {
 

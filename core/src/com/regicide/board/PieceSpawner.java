@@ -2,6 +2,7 @@ package com.regicide.board;
 
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.gamestate.GameplayGameState;
 import com.regicide.util.Distribution;
 
@@ -13,11 +14,12 @@ public class PieceSpawner extends Piece {
         this.distribution = distribution;
     }
 
+    @Override
     public void update(float tdelta) {
     }
 
-    public void draw() {
-
+    @Override
+    public void draw(SpriteBatch batch) {
     }
 
     public Piece getPiece(Random rng) {
