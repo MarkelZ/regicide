@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.regicide.board.Board;
 import com.regicide.music.MusicInterpolator;
 import com.regicide.music.MusicInterpolator.SongChoice;
 
@@ -19,20 +20,22 @@ public class Game extends ApplicationAdapter {
 	public static final int FPS = 60;
 	public static final float SPF = 1.f / FPS;
 
+	// Graphics
 	private SpriteBatch batch;
 	private Viewport viewport;
 	private OrthographicCamera camera;
 	private int scale;
 
-	// objects for debugging
-	private Texture testSprite;
+	// Objects for debugging
 	private MusicInterpolator testMusicPlayer;
+	private Board testBoard;
 
 	@Override
 	public void create() {
 		// Sprites and resources
 		batch = new SpriteBatch();
-		testSprite = new Texture("block.png");
+
+		testBoard = new Board();
 		testMusicPlayer = new MusicInterpolator(
 				Gdx.files.internal("bossmain.wav"),
 				Gdx.files.internal("bosspitchshift.wav"));
@@ -67,12 +70,14 @@ public class Game extends ApplicationAdapter {
 			testMusicPlayer.changeToSong(SongChoice.S2);
 		testMusicPlayer.update(SPF);
 
+		testBoard.update(FPS);
+
 		// Draw
 		ScreenUtils.clear(0, 0, 0, 1);
 		viewport.apply();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(testSprite, 0, 0);
+		testBoard.draw(batch);
 		batch.end();
 	}
 
