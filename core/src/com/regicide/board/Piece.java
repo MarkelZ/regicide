@@ -5,8 +5,12 @@ import com.regicide.gamestate.GameplayGameState;
 
 public abstract class Piece extends Entity {
     // position on the grid
-    private int x;
-    private int y;
+    protected int i;
+    protected int j;
+
+    // world position
+    protected float x;
+    protected float y;
 
     public Piece(GameplayGameState gs) {
         super(gs);

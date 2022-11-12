@@ -9,10 +9,11 @@ public class Board implements IUpdatableDrawable {
     public ArrayList<Piece> pieceList;
     public Piece[][] grid;
 
-    public Room room; // this should be replaced with a graph of rooms
+    public RoomGraph rooms;
 
     public Board() {
-        room = new Room(12, 12);
+        rooms = new RoomGraph();
+        rooms.addVertex(new Room(12, 12));
         grid = new Piece[12][12];
         pieceList = new ArrayList<>();
 
@@ -32,7 +33,9 @@ public class Board implements IUpdatableDrawable {
 
     @Override
     public void update(float tdelta) {
-        room.update(tdelta);
+        for (Room r : rooms.getVertexList()) {
+            r.update(tdelta);
+        }
 
         for (Piece p : pieceList) {
             p.update(tdelta);
@@ -41,7 +44,9 @@ public class Board implements IUpdatableDrawable {
 
     @Override
     public void draw(SpriteBatch batch) {
-        room.draw(batch);
+        for (Room r : rooms.getVertexList()) {
+            r.draw(batch);
+        }
 
         for (Piece p : pieceList) {
             p.draw(batch);
