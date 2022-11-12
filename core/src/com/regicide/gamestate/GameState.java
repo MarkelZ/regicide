@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public abstract class GameState {
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    protected SpriteBatch batch;
+    protected OrthographicCamera camera;
+    protected Viewport viewport;
 
     /**
      * Update gamestate.

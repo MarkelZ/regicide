@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -14,8 +13,8 @@ import com.regicide.music.MusicInterpolator;
 import com.regicide.music.MusicInterpolator.SongChoice;
 
 public class Game extends ApplicationAdapter {
-	public static int WIDTH = 360;
-	public static int HEIGHT = 240;
+	public static int WIDTH = 300;
+	public static int HEIGHT = 200;
 
 	public static final int FPS = 60;
 	public static final float SPF = 1.f / FPS;
@@ -41,7 +40,7 @@ public class Game extends ApplicationAdapter {
 				Gdx.files.internal("bosspitchshift.wav"));
 
 		// Graphics
-		scale = 3;
+		scale = 4;
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
 		viewport = new FitViewport(WIDTH, HEIGHT, camera);
 		Gdx.graphics.setWindowedMode(WIDTH * scale, HEIGHT * scale);
@@ -53,6 +52,9 @@ public class Game extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		// TODO: Future me, do this instead
+		// https://stackoverflow.com/questions/7551669/libgdx-spritebatch-render-to-texture
+
 		// Update
 		if (Gdx.input.isKeyPressed(Keys.W))
 			camera.translate(0, 2, 0);

@@ -7,28 +7,40 @@ import com.regicide.IUpdatableDrawable;
 
 public class Board implements IUpdatableDrawable {
     public ArrayList<Piece> pieceList;
-    public Piece[][] grid;
+    public Piece[][] pieceGrid;
 
     public RoomGraph rooms;
+    // Room corresponding to each tile in the grid
+    public Room[][] roomGrid;
+
+    public final int width = 16;
+    public final int height = 12;
+
+    // Size of a tile in world units
+    public final int tileSize = 16;
 
     public Board() {
         rooms = new RoomGraph();
-        rooms.addVertex(new Room(12, 12));
-        grid = new Piece[12][12];
+        rooms.addVertex(new Room(width, height));
+        roomGrid = new Room[width][height];
+
+        pieceGrid = new Piece[width][height];
         pieceList = new ArrayList<>();
 
-        // needs more work
         Knight knight = new Knight(null);
-        knight.x = 4 * 16;
-        knight.y = 4 * 16;
-        grid[4][4] = knight;
-        pieceList.add(knight);
+        addPiece(knight, 4, 4);
 
         Knight knight2 = new Knight(null);
-        knight2.x = 7 * 16;
-        knight2.y = 9 * 16;
-        grid[7][2] = knight2;
-        pieceList.add(knight2);
+        addPiece(knight2, 7, 9);
+    }
+
+    public void addPiece(Piece p, int i, int j) {
+        p.i = i;
+        p.j = j;
+        p.x = i * tileSize;
+        p.y = j * tileSize;
+        pieceGrid[i][j] = p;
+        pieceList.add(p);
     }
 
     @Override

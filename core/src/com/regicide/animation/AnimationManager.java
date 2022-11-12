@@ -1,6 +1,15 @@
 package com.regicide.animation;
 
+// Synchronize all sprites
 public class AnimationManager {
-    // Should synchronize all sprites
 
+    protected float animationTime;
+
+    public AnimationManager() {
+        animationTime = 0.f;
+    }
+
+    public void update(float tdelta) {
+
+    }
 }
