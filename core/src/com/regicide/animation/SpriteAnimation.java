@@ -3,7 +3,7 @@ package com.regicide.animation;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class SpriteAnimation {
+public class SpriteAnimation extends Animation {
     // Texture of the animaiton
     protected Texture animationSprite;
 
@@ -21,12 +21,6 @@ public class SpriteAnimation {
     // That is, the indices should be lower than these numbers
     protected int maxframeIndex;
     protected int maxAnimationIndex;
-
-    // Whether the animation is running
-    protected boolean isEnabled;
-
-    // Whether the animation should be displayed
-    protected boolean isVisible;
 
     // How many game ticks it takes to switch to the next frame
     protected int tickRate;
@@ -84,22 +78,6 @@ public class SpriteAnimation {
         if (ai >= 0 && ai < maxAnimationIndex) {
             animationIndex = ai;
         }
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public void setEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
-    }
-
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-    public void setVisible(boolean isVisible) {
-        this.isVisible = isVisible;
     }
 
     public int getTickRate() {

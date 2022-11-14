@@ -12,7 +12,7 @@ public class Player extends Piece {
     public Player(GameplayGameState gs) {
         super(gs);
 
-        Texture texture = new Texture("squishy.png");
+        Texture texture = new Texture("flop.png");
         animation = new SpriteAnimation(texture, 16, 16, 8);
     }
 
