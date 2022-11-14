@@ -2,15 +2,13 @@ package com.regicide;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.regicide.board.Board;
-import com.regicide.music.MusicInterpolator;
-import com.regicide.music.MusicInterpolator.SongChoice;
+import com.regicide.gamestate.GameState;
+import com.regicide.gamestate.GameplayGameState;
 
 public class Game extends ApplicationAdapter {
 	public static int WIDTH = 300;
@@ -25,19 +23,13 @@ public class Game extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private int scale;
 
-	// Objects for debugging
-	private MusicInterpolator testMusicPlayer;
-	private Board testBoard;
+	// Game state
+	GameState gameState;
 
 	@Override
 	public void create() {
 		// Sprites and resources
 		batch = new SpriteBatch();
-
-		testBoard = new Board();
-		testMusicPlayer = new MusicInterpolator(
-				Gdx.files.internal("bossmain.wav"),
-				Gdx.files.internal("bosspitchshift.wav"));
 
 		// Graphics
 		scale = 4;
@@ -45,41 +37,23 @@ public class Game extends ApplicationAdapter {
 		viewport = new FitViewport(WIDTH, HEIGHT, camera);
 		Gdx.graphics.setWindowedMode(WIDTH * scale, HEIGHT * scale);
 
-		// Start up
-		testMusicPlayer.setVolume(0.5f);
-		testMusicPlayer.play();
+		// Game state
+		gameState = new GameplayGameState(this);
 	}
 
 	@Override
 	public void render() {
-		// TODO: Future me, do this instead
-		// https://stackoverflow.com/questions/7551669/libgdx-spritebatch-render-to-texture
-
 		// Update
-		if (Gdx.input.isKeyPressed(Keys.W))
-			camera.translate(0, 2, 0);
-		if (Gdx.input.isKeyPressed(Keys.S))
-			camera.translate(0, -2, 0);
-		if (Gdx.input.isKeyPressed(Keys.D))
-			camera.translate(2, 0, 0);
-		if (Gdx.input.isKeyPressed(Keys.A))
-			camera.translate(-2, 0, 0);
-		camera.update();
-
-		if (Gdx.input.isKeyJustPressed(Keys.J))
-			testMusicPlayer.changeToSong(SongChoice.S1);
-		if (Gdx.input.isKeyJustPressed(Keys.K))
-			testMusicPlayer.changeToSong(SongChoice.S2);
-		testMusicPlayer.update(SPF);
-
-		testBoard.update(FPS);
+		gameState.update(SPF);
 
 		// Draw
+		// TODO: Future me, do this instead
+		// https://stackoverflow.com/questions/7551669/libgdx-spritebatch-render-to-texture
 		ScreenUtils.clear(0, 0, 0, 1);
 		viewport.apply();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		testBoard.draw(batch);
+		gameState.draw(batch);
 		batch.end();
 	}
 
@@ -101,5 +75,9 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		batch.dispose();
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
 	}
 }

@@ -1,13 +1,17 @@
 package com.regicide.gamestate;
 
+import com.regicide.Game;
+import com.regicide.IUpdatableDrawable;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-public abstract class GameState {
-    protected SpriteBatch batch;
+public abstract class GameState implements IUpdatableDrawable {
     protected OrthographicCamera camera;
-    protected Viewport viewport;
+    protected Game game;
+
+    public GameState(Game game) {
+        this.game = game;
+    }
 
     /**
      * Update gamestate.
@@ -19,5 +23,5 @@ public abstract class GameState {
     /**
      * Draw gamestate.
      */
-    public abstract void draw();
+    public abstract void draw(SpriteBatch batch);
 }
