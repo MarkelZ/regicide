@@ -2,11 +2,9 @@ package com.regicide.gamestate;
 
 import com.regicide.Game;
 import com.regicide.IUpdatableDrawable;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class GameState implements IUpdatableDrawable {
-    protected OrthographicCamera camera;
     protected Game game;
 
     public GameState(Game game) {

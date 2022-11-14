@@ -2,27 +2,28 @@ package com.regicide.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
 import com.regicide.gamestate.GameplayGameState;
 
 public class Player extends Piece {
-    private Texture texture;
+    private SpriteAnimation animation;
 
     public Player(GameplayGameState gs) {
         super(gs);
 
-        texture = new Texture("flop.png");
+        Texture texture = new Texture("squishy.png");
+        animation = new SpriteAnimation(texture, 16, 16, 8);
     }
 
     @Override
     public void update(float tdelta) {
-        // TODO Auto-generated method stub
-
+        animation.update(tdelta);
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, x, y);
+        animation.draw(batch, x, y);
     }
 
 }

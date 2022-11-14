@@ -25,7 +25,6 @@ public class GameplayGameState extends GameState {
     public GameplayGameState(Game game) {
         super(game);
 
-        board = new Board();
         animationManager = new AnimationManager();
         musicPlayer = new MusicInterpolator(
                 Gdx.files.internal("bossmain.wav"),
@@ -33,6 +32,8 @@ public class GameplayGameState extends GameState {
         musicPlayer.setVolume(0.5f);
         musicPlayer.play();
         camManager = new GameplayCamManager(game.getCamera());
+
+        board = new Board(this);
     }
 
     @Override
