@@ -1,9 +1,11 @@
 package com.regicide.board;
 
-import com.regicide.entity.Entity;
+import com.regicide.IUpdatableDrawable;
 import com.regicide.gamestate.GameplayGameState;
 
-public abstract class Piece extends Entity {
+public abstract class Piece implements IUpdatableDrawable {
+    protected GameplayGameState gs;
+
     // position on the grid
     protected int i;
     protected int j;
@@ -13,6 +15,6 @@ public abstract class Piece extends Entity {
     protected float y;
 
     public Piece(GameplayGameState gs) {
-        super(gs);
+        this.gs = gs;
     }
 }

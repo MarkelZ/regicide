@@ -2,6 +2,8 @@ package com.regicide.gamestate;
 
 import com.regicide.Game;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
@@ -12,6 +14,7 @@ import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Board;
 import com.regicide.camera.GameplayCamManager;
 import com.regicide.music.MusicInterpolator;
+import com.regicide.particle.Particle;
 
 public class GameplayGameState extends GameState {
     public World world;
@@ -19,8 +22,12 @@ public class GameplayGameState extends GameState {
 
     protected AnimationManager animationManager;
     protected MusicInterpolator musicPlayer;
-    protected Board board;
     protected GameplayCamManager camManager;
+
+    protected Board board;
+    protected ArrayList<Particle> particles;
+    protected ArrayList<Particle> particlesToAdd;
+    protected ArrayList<Particle> particlesToRmv;
 
     public GameplayGameState(Game game) {
         super(game);
@@ -34,19 +41,46 @@ public class GameplayGameState extends GameState {
         camManager = new GameplayCamManager(game.getCamera());
 
         board = new Board(this);
+        particles = new ArrayList<>();
+        particlesToAdd = new ArrayList<>();
+        particlesToRmv = new ArrayList<>();
     }
 
     @Override
     public void update(float tdelta) {
+        // Update utils
         animationManager.update(tdelta);
         musicPlayer.update(tdelta);
         camManager.update(tdelta);
         board.update(tdelta);
+
+        // Update particles
+        for (Particle p : particles) {
+            p.update(tdelta);
+        }
+
+        // Add and remove particles
+        particles.addAll(particlesToAdd);
+        particles.removeAll(particlesToRmv);
+        particlesToAdd.clear();
+        particlesToRmv.clear();
     }
 
     @Override
     public void draw(SpriteBatch batch) {
         board.draw(batch);
+
+        for (Particle p : particles) {
+            p.draw(batch);
+        }
+    }
+
+    public void addParticle(Particle particle) {
+        particlesToAdd.add(particle);
+    }
+
+    public void removeParticle(Particle particle) {
+        particlesToRmv.add(particle);
     }
 
     public void syncAnimation(SpriteAnimation animation) {
