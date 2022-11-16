@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.IUpdatableDrawable;
 import com.regicide.board.pieces.Knight;
+import com.regicide.board.player.Player;
 import com.regicide.gamestate.GameplayGameState;
-import com.regicide.player.Player;
 
 public class Board implements IUpdatableDrawable {
     public ArrayList<Piece> pieceList;
@@ -24,6 +24,9 @@ public class Board implements IUpdatableDrawable {
     public final int tileSize = 16;
     public final int halfTileSize = tileSize / 2;
 
+    // The player
+    protected Player player;
+
     public Board(GameplayGameState gs) {
         rooms = new RoomGraph();
         roomGrid = new Room[width][height];
@@ -40,7 +43,7 @@ public class Board implements IUpdatableDrawable {
         Knight knight2 = new Knight(gs);
         addPiece(knight2, 7, 9);
 
-        Player player = new Player(gs);
+        player = new Player(gs);
         addPiece(player, 10, 10);
     }
 

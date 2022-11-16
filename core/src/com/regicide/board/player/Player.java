@@ -1,6 +1,4 @@
-package com.regicide.player;
-
-import java.util.ArrayList;
+package com.regicide.board.player;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,22 +7,18 @@ import com.regicide.board.Piece;
 import com.regicide.gamestate.GameplayGameState;
 import com.regicide.movement.KnightPattern;
 import com.regicide.movement.MoveList;
-import com.regicide.movement.MovePattern;
-import com.regicide.movement.SequenceMove;
 import com.regicide.movement.TilePosition;
 
 public class Player extends Piece {
     private SpriteAnimation animation;
     private SpriteAnimation selectedTileAnimation;
-    private MovePattern pattern;
 
     public Player(GameplayGameState gs) {
-        super(gs, Kind.Friendly);
-        pattern = new KnightPattern();
+        super(gs, Kind.Friendly, new KnightPattern());
 
         Texture texture = new Texture("flop.png");
         animation = new SpriteAnimation(texture, 16, 16, 8);
-        Texture selectTexture = new Texture("tileselect.png");
+        Texture selectTexture = new Texture("selectred.png");
         selectedTileAnimation = new SpriteAnimation(selectTexture, 16, 16, 8);
     }
 
@@ -39,7 +33,7 @@ public class Player extends Piece {
         animation.draw(batch, x, y);
 
         // TODO: dont do * 16
-        MoveList ml = pattern.getMoves(gs.getBoard(), i, j);
+        MoveList ml = movePattern.getMoves(gs.getBoard(), i, j);
         for (TilePosition pos : ml.canMoveTo) {
             selectedTileAnimation.draw(batch, pos.i * 16, pos.j * 16);
         }

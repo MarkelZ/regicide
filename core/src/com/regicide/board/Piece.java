@@ -2,6 +2,7 @@ package com.regicide.board;
 
 import com.regicide.IUpdatableDrawable;
 import com.regicide.gamestate.GameplayGameState;
+import com.regicide.movement.MovePattern;
 
 public abstract class Piece implements IUpdatableDrawable {
     /**
@@ -40,8 +41,12 @@ public abstract class Piece implements IUpdatableDrawable {
     // Kind of the piece
     protected Kind kind;
 
-    public Piece(GameplayGameState gs, Kind kind) {
+    // Movement pattern
+    protected MovePattern movePattern;
+
+    public Piece(GameplayGameState gs, Kind kind, MovePattern movePattern) {
         this.gs = gs;
         this.kind = kind;
+        this.movePattern = movePattern;
     }
 }
