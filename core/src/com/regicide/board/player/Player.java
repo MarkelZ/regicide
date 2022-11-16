@@ -1,12 +1,18 @@
 package com.regicide.board.player;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
 import com.regicide.gamestate.GameplayGameState;
+import com.regicide.movement.BishopPattern;
+import com.regicide.movement.CompoundMove;
 import com.regicide.movement.KnightPattern;
 import com.regicide.movement.MoveList;
+import com.regicide.movement.MovePattern;
+import com.regicide.movement.RookPattern;
 import com.regicide.movement.TilePosition;
 
 public class Player extends Piece {
@@ -14,7 +20,13 @@ public class Player extends Piece {
     private SpriteAnimation selectedTileAnimation;
 
     public Player(GameplayGameState gs) {
-        super(gs, Kind.Friendly, new KnightPattern());
+        super(gs, Kind.Friendly, null);
+
+        ArrayList<MovePattern> patterns = new ArrayList<>();
+        patterns.add(new BishopPattern());
+        patterns.add(new KnightPattern());
+        patterns.add(new RookPattern());
+        movePattern = new CompoundMove(patterns);
 
         Texture texture = new Texture("flop.png");
         animation = new SpriteAnimation(texture, 16, 16, 8);

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.IUpdatableDrawable;
+import com.regicide.board.pieces.Bishop;
 import com.regicide.board.pieces.Knight;
+import com.regicide.board.pieces.Rook;
 import com.regicide.board.player.Player;
 import com.regicide.gamestate.GameplayGameState;
 
@@ -38,10 +40,13 @@ public class Board implements IUpdatableDrawable {
         rooms.addVertex(new Room(width, height));
 
         Knight knight = new Knight(gs);
-        addPiece(knight, 4, 4);
+        addPiece(knight, 3, 3);
 
-        Knight knight2 = new Knight(gs);
-        addPiece(knight2, 7, 9);
+        Bishop bishop = new Bishop(gs);
+        addPiece(bishop, 2, 10);
+
+        Rook rook = new Rook(gs);
+        addPiece(rook, 6, 5);
 
         player = new Player(gs);
         addPiece(player, 10, 10);

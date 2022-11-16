@@ -34,6 +34,7 @@ public class Game extends ApplicationAdapter {
 		// Graphics
 		scale = 4;
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
+		camera.translate(100, 100, 0);
 		viewport = new FitViewport(WIDTH, HEIGHT, camera);
 		Gdx.graphics.setWindowedMode(WIDTH * scale, HEIGHT * scale);
 
