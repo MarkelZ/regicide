@@ -25,6 +25,7 @@ public class GameplayGameState extends GameState {
     protected GameplayCamManager camManager;
 
     protected Board board;
+
     protected ArrayList<Particle> particles;
     protected ArrayList<Particle> particlesToAdd;
     protected ArrayList<Particle> particlesToRmv;
@@ -85,5 +86,13 @@ public class GameplayGameState extends GameState {
 
     public void syncAnimation(SpriteAnimation animation) {
 
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

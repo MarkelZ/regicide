@@ -3,8 +3,8 @@ package com.regicide.board;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
+import com.regicide.board.pieces.Knight;
 import com.regicide.gamestate.GameplayGameState;
 import com.regicide.player.Player;
 
@@ -13,22 +13,26 @@ public class Board implements IUpdatableDrawable {
     public Piece[][] pieceGrid;
 
     public RoomGraph rooms;
-    // Room corresponding to each tile in the grid
+    // Grid representing which tile belongs to which room
     public Room[][] roomGrid;
 
+    // Debug
     public final int width = 16;
     public final int height = 12;
 
     // Size of a tile in world units
     public final int tileSize = 16;
+    public final int halfTileSize = tileSize / 2;
 
     public Board(GameplayGameState gs) {
         rooms = new RoomGraph();
-        rooms.addVertex(new Room(width, height));
         roomGrid = new Room[width][height];
 
         pieceGrid = new Piece[width][height];
         pieceList = new ArrayList<>();
+
+        // Debug
+        rooms.addVertex(new Room(width, height));
 
         Knight knight = new Knight(gs);
         addPiece(knight, 4, 4);

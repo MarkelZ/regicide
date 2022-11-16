@@ -46,7 +46,7 @@ public class BreakParticle extends Particle {
         // Randomize velocity
         float maxvel = 4;
         velocity.x = (rnd.nextFloat() * 2 - 1) * maxvel;
-        velocity.y = rnd.nextFloat() * maxvel;
+        velocity.y = rnd.nextFloat() * maxvel - 1;
 
         // Despawning
         isDespawnable = true;

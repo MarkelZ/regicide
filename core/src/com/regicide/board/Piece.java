@@ -4,17 +4,44 @@ import com.regicide.IUpdatableDrawable;
 import com.regicide.gamestate.GameplayGameState;
 
 public abstract class Piece implements IUpdatableDrawable {
+    /**
+     * How the piece interacts with other pieces.
+     */
+    public enum Kind {
+        /**
+         * The player or an ally of the player.
+         */
+        Friendly,
+        /**
+         * It is not an ally, but it is not hostile either
+         */
+        Neutral,
+        /**
+         * It attacks the player and their allies.
+         */
+        Hostile,
+        /**
+         * It cannot be interacted with.
+         */
+        None
+    }
+
+    // Game state to which the piece belongs
     protected GameplayGameState gs;
 
-    // position on the grid
+    // Position on the grid
     protected int i;
     protected int j;
 
-    // world position
+    // World position
     protected float x;
     protected float y;
 
-    public Piece(GameplayGameState gs) {
+    // Kind of the piece
+    protected Kind kind;
+
+    public Piece(GameplayGameState gs, Kind kind) {
         this.gs = gs;
+        this.kind = kind;
     }
 }

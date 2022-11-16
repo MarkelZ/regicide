@@ -10,7 +10,7 @@ public class PieceSpawner extends Piece {
     private Distribution<Piece> distribution;
 
     public PieceSpawner(GameplayGameState gs, Distribution<Piece> distribution) {
-        super(gs);
+        super(gs, Kind.None);
         this.distribution = distribution;
     }
 
