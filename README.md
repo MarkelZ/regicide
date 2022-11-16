@@ -4,6 +4,8 @@
 
 This is a roguelike turn-based strategy game.
 
+![screenshot](thumbnail.png)
+
 ## Dependencies
 
 - libGDX.
