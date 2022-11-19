@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
-import com.regicide.gamestate.GameplayGameState;
 import com.regicide.movement.BishopPattern;
 import com.regicide.movement.CompoundMove;
 import com.regicide.movement.KnightPattern;
@@ -14,12 +13,13 @@ import com.regicide.movement.MoveList;
 import com.regicide.movement.MovePattern;
 import com.regicide.movement.RookPattern;
 import com.regicide.movement.TilePosition;
+import com.regicide.scene.GameplayScene;
 
 public class Player extends Piece {
     private SpriteAnimation animation;
     private SpriteAnimation selectedTileAnimation;
 
-    public Player(GameplayGameState gs) {
+    public Player(GameplayScene gs) {
         super(gs, Kind.Friendly, null);
 
         ArrayList<MovePattern> patterns = new ArrayList<>();

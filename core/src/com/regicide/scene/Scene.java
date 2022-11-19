@@ -1,13 +1,13 @@
-package com.regicide.gamestate;
+package com.regicide.scene;
 
 import com.regicide.Game;
 import com.regicide.IUpdatableDrawable;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class GameState implements IUpdatableDrawable {
+public abstract class Scene implements IUpdatableDrawable {
     protected Game game;
 
-    public GameState(Game game) {
+    public Scene(Game game) {
         this.game = game;
     }
 

@@ -1,8 +1,8 @@
 package com.regicide.board;
 
 import com.regicide.IUpdatableDrawable;
-import com.regicide.gamestate.GameplayGameState;
 import com.regicide.movement.MovePattern;
+import com.regicide.scene.GameplayScene;
 
 public abstract class Piece implements IUpdatableDrawable {
     /**
@@ -28,7 +28,7 @@ public abstract class Piece implements IUpdatableDrawable {
     }
 
     // Game state to which the piece belongs
-    protected GameplayGameState gs;
+    protected GameplayScene gs;
 
     // Position on the grid
     protected int i;
@@ -44,7 +44,7 @@ public abstract class Piece implements IUpdatableDrawable {
     // Movement pattern
     protected MovePattern movePattern;
 
-    public Piece(GameplayGameState gs, Kind kind, MovePattern movePattern) {
+    public Piece(GameplayScene gs, Kind kind, MovePattern movePattern) {
         this.gs = gs;
         this.kind = kind;
         this.movePattern = movePattern;

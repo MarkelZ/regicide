@@ -1,4 +1,4 @@
-package com.regicide.gamestate;
+package com.regicide.scene;
 
 import com.regicide.Game;
 
@@ -16,7 +16,7 @@ import com.regicide.camera.GameplayCamManager;
 import com.regicide.music.MusicInterpolator;
 import com.regicide.particle.Particle;
 
-public class GameplayGameState extends GameState {
+public class GameplayScene extends Scene {
     public World world;
     public RayHandler rayHandler;
 
@@ -30,7 +30,7 @@ public class GameplayGameState extends GameState {
     protected ArrayList<Particle> particlesToAdd;
     protected ArrayList<Particle> particlesToRmv;
 
-    public GameplayGameState(Game game) {
+    public GameplayScene(Game game) {
         super(game);
 
         animationManager = new AnimationManager();

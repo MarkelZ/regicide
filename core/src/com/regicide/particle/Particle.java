@@ -2,11 +2,11 @@ package com.regicide.particle;
 
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
-import com.regicide.gamestate.GameplayGameState;
+import com.regicide.scene.GameplayScene;
 
 public abstract class Particle implements IUpdatableDrawable {
     // Game state
-    protected GameplayGameState gs;
+    protected GameplayScene gs;
 
     // Position and velocity
     protected Vector2 position;
@@ -22,7 +22,7 @@ public abstract class Particle implements IUpdatableDrawable {
     protected float timer;
     protected boolean isDespawnable;
 
-    public Particle(GameplayGameState gs, Vector2 position) {
+    public Particle(GameplayScene gs, Vector2 position) {
         this.gs = gs;
 
         this.position = position;

@@ -8,7 +8,7 @@ import com.regicide.board.pieces.Bishop;
 import com.regicide.board.pieces.Knight;
 import com.regicide.board.pieces.Rook;
 import com.regicide.board.player.Player;
-import com.regicide.gamestate.GameplayGameState;
+import com.regicide.scene.GameplayScene;
 
 public class Board implements IUpdatableDrawable {
     public ArrayList<Piece> pieceList;
@@ -29,7 +29,7 @@ public class Board implements IUpdatableDrawable {
     // The player
     protected Player player;
 
-    public Board(GameplayGameState gs) {
+    public Board(GameplayScene gs) {
         rooms = new RoomGraph();
         roomGrid = new Room[width][height];
 

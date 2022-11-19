@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.board.Board;
 import com.regicide.board.Piece;
-import com.regicide.gamestate.GameplayGameState;
 import com.regicide.movement.BishopPattern;
 import com.regicide.particle.BreakParticle;
+import com.regicide.scene.GameplayScene;
 
 public class Rook extends Piece {
     protected static Texture animationSprite; // should be added to spriteanimation
 
-    public Rook(GameplayGameState gs) {
+    public Rook(GameplayScene gs) {
         super(gs, Kind.Hostile, new BishopPattern());
 
         if (animationSprite == null) {

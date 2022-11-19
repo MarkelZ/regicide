@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.board.Board;
 import com.regicide.board.Piece;
-import com.regicide.gamestate.GameplayGameState;
 import com.regicide.movement.KnightPattern;
 import com.regicide.particle.BreakParticle;
+import com.regicide.scene.GameplayScene;
 
 public class Knight extends Piece {
     protected static Texture animationSprite; // should be added to spriteanimation
 
-    public Knight(GameplayGameState gs) {
+    public Knight(GameplayScene gs) {
         super(gs, Kind.Hostile, new KnightPattern());
 
         if (animationSprite == null) {

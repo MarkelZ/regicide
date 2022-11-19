@@ -5,7 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.regicide.gamestate.GameplayGameState;
+import com.regicide.scene.GameplayScene;
 
 public class BreakParticle extends Particle {
     // Texture from which to render a rectangular segment
@@ -22,7 +22,7 @@ public class BreakParticle extends Particle {
     // Random number generator to randomize the size and position of the segment
     private static Random rnd;
 
-    public BreakParticle(GameplayGameState gs, Vector2 position, Texture texture, int maxWidth, int maxHeight) {
+    public BreakParticle(GameplayScene gs, Vector2 position, Texture texture, int maxWidth, int maxHeight) {
         super(gs, position);
         this.texture = texture;
 

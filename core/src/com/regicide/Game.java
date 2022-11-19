@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.regicide.gamestate.GameState;
-import com.regicide.gamestate.GameplayGameState;
+import com.regicide.scene.Scene;
+import com.regicide.scene.GameplayScene;
 
 public class Game extends ApplicationAdapter {
 	public static int WIDTH = 300;
@@ -24,7 +24,7 @@ public class Game extends ApplicationAdapter {
 	private int scale;
 
 	// Game state
-	GameState gameState;
+	Scene gameState;
 
 	@Override
 	public void create() {
@@ -39,7 +39,7 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(WIDTH * scale, HEIGHT * scale);
 
 		// Game state
-		gameState = new GameplayGameState(this);
+		gameState = new GameplayScene(this);
 	}
 
 	@Override
