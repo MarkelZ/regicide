@@ -30,16 +30,41 @@ public abstract class MovePattern {
         return false;
     }
 
-    // Gets the valid moves of a hopper type piece
-    protected static MoveList getHopperMoves(Board board, int i, int j, TilePosition[] hopPattern) {
+    // Gets the valid moves of a leaper type piece
+    protected static MoveList getLeaperMoves(Board board, int i, int j, TilePosition[] leapPattern) {
         MoveList result = new MoveList();
 
-        for (TilePosition pos : hopPattern) {
+        for (TilePosition pos : leapPattern) {
             int ni = i + pos.i;
             int nj = j + pos.j;
 
             if (isWithinBounds(board, ni, nj) && board.pieceGrid[ni][nj] == null) {
                 result.canMoveTo.add(new TilePosition(ni, nj));
+            }
+        }
+
+        return result;
+    }
+
+    protected static MoveList getRiderMoves(Board board, int i, int j, TilePosition[] ridePattern) {
+        MoveList result = new MoveList();
+
+        int indi, indj;
+
+        // Perform a 'ride' for each direction the piece can move
+        for (TilePosition pos : ridePattern) {
+            // Start by moving just one tile in the given direction
+            indi = i + pos.i;
+            indj = j + pos.j;
+
+            while (true) {
+                // If a collision happens, stop sliding
+                if (checkCollision(board, indi, indj, result))
+                    break;
+
+                // Move one step
+                indi += pos.i;
+                indj += pos.j;
             }
         }
 

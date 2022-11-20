@@ -4,7 +4,7 @@ import com.regicide.board.Board;
 
 public class KnightPattern extends MovePattern {
 
-    TilePosition[] positions = {
+    TilePosition[] leapPattern = {
             new TilePosition(2, 1),
             new TilePosition(2, -1),
             new TilePosition(1, 2),
@@ -16,7 +16,7 @@ public class KnightPattern extends MovePattern {
 
     @Override
     public MoveList getMoves(Board board, int i, int j) {
-        return getHopperMoves(board, i, j, positions);
+        return getLeaperMoves(board, i, j, leapPattern);
     }
 
 }
