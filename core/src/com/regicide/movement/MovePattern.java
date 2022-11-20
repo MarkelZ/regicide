@@ -29,4 +29,20 @@ public abstract class MovePattern {
         result.canMoveTo.add(new TilePosition(i, j));
         return false;
     }
+
+    // Gets the valid moves of a hopper type piece
+    protected static MoveList getHopperMoves(Board board, int i, int j, TilePosition[] hopPattern) {
+        MoveList result = new MoveList();
+
+        for (TilePosition pos : hopPattern) {
+            int ni = i + pos.i;
+            int nj = j + pos.j;
+
+            if (isWithinBounds(board, ni, nj) && board.pieceGrid[ni][nj] == null) {
+                result.canMoveTo.add(new TilePosition(ni, nj));
+            }
+        }
+
+        return result;
+    }
 }

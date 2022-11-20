@@ -16,18 +16,7 @@ public class KnightPattern extends MovePattern {
 
     @Override
     public MoveList getMoves(Board board, int i, int j) {
-        MoveList result = new MoveList();
-
-        for (TilePosition pos : positions) {
-            int ni = i + pos.i;
-            int nj = j + pos.j;
-
-            if (isWithinBounds(board, ni, nj) && board.pieceGrid[ni][nj] == null) {
-                result.canMoveTo.add(new TilePosition(ni, nj));
-            }
-        }
-
-        return result;
+        return getHopperMoves(board, i, j, positions);
     }
 
 }
