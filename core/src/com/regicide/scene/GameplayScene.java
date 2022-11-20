@@ -17,8 +17,16 @@ import com.regicide.music.MusicInterpolator;
 import com.regicide.particle.Particle;
 
 public class GameplayScene extends Scene {
-    public World world;
-    public RayHandler rayHandler;
+    public enum State {
+        PlayerThinking,
+        PlayerTransitioning,
+        EnemyTransitioning
+    }
+
+    protected State state;
+
+    protected World world;
+    protected RayHandler rayHandler;
 
     protected AnimationManager animationManager;
     protected MusicInterpolator musicPlayer;
@@ -45,6 +53,8 @@ public class GameplayScene extends Scene {
         particles = new ArrayList<>();
         particlesToAdd = new ArrayList<>();
         particlesToRmv = new ArrayList<>();
+
+        state = State.PlayerThinking;
     }
 
     @Override
@@ -53,7 +63,6 @@ public class GameplayScene extends Scene {
         animationManager.update(tdelta);
         musicPlayer.update(tdelta);
         camManager.update(tdelta);
-        board.update(tdelta);
 
         // Update particles
         for (Particle p : particles) {
@@ -65,12 +74,29 @@ public class GameplayScene extends Scene {
         particles.removeAll(particlesToRmv);
         particlesToAdd.clear();
         particlesToRmv.clear();
+
+        // Update board
+        board.update(tdelta);
+
+        // State
+        switch (state) {
+            case PlayerThinking:
+                break;
+            case PlayerTransitioning:
+                break;
+            case EnemyTransitioning:
+                break;
+            default:
+                System.out.println("WARNING: Gameplay scene in unknown state.");
+        }
     }
 
     @Override
     public void draw(SpriteBatch batch) {
+        // Draw board
         board.draw(batch);
 
+        // Draw particles
         for (Particle p : particles) {
             p.draw(batch);
         }
@@ -94,5 +120,41 @@ public class GameplayScene extends Scene {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public RayHandler getRayHandler() {
+        return rayHandler;
+    }
+
+    public AnimationManager getAnimationManager() {
+        return animationManager;
+    }
+
+    public MusicInterpolator getMusicPlayer() {
+        return musicPlayer;
+    }
+
+    public GameplayCamManager getCamManager() {
+        return camManager;
+    }
+
+    public ArrayList<Particle> getParticles() {
+        return particles;
+    }
+
+    public ArrayList<Particle> getParticlesToAdd() {
+        return particlesToAdd;
+    }
+
+    public ArrayList<Particle> getParticlesToRmv() {
+        return particlesToRmv;
     }
 }
