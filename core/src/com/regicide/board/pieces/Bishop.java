@@ -8,14 +8,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.regicide.board.Board;
 import com.regicide.board.Piece;
 import com.regicide.movement.BishopPattern;
+import com.regicide.movement.TilePosition;
 import com.regicide.particle.BreakParticle;
 import com.regicide.scene.GameplayScene;
 
 public class Bishop extends Piece {
     protected static Texture animationSprite; // should be added to spriteanimation
 
-    public Bishop(GameplayScene gs) {
-        super(gs, Kind.Hostile, new BishopPattern());
+    public Bishop(GameplayScene gs, TilePosition pos) {
+        super(gs, Kind.Hostile, new BishopPattern(), pos);
 
         if (animationSprite == null) {
             animationSprite = new Texture("pieces/bishop.png");
@@ -29,14 +30,15 @@ public class Bishop extends Piece {
         if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
             Board b = gs.getBoard();
             for (int _ = 0; _ < 20; _++) {
-                gs.addParticle(new BreakParticle(gs, new Vector2(x + b.halfTileSize, y + b.halfTileSize),
-                        animationSprite, 8, 8));
+                gs.addParticle(
+                        new BreakParticle(gs, new Vector2(worldPos.x + b.halfTileSize, worldPos.y + b.halfTileSize),
+                                animationSprite, 8, 8));
             }
         }
     }
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(animationSprite, x, y);
+        batch.draw(animationSprite, worldPos.x, worldPos.y);
     }
 }

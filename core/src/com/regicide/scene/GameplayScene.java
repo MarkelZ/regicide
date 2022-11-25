@@ -1,20 +1,21 @@
 package com.regicide.scene;
 
-import com.regicide.Game;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import box2dLight.RayHandler;
-
+import com.regicide.Game;
 import com.regicide.animation.AnimationManager;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Board;
 import com.regicide.camera.GameplayCamManager;
 import com.regicide.music.MusicInterpolator;
 import com.regicide.particle.Particle;
+
+import box2dLight.RayHandler;
 
 public class GameplayScene extends Scene {
     public enum State {
@@ -41,6 +42,7 @@ public class GameplayScene extends Scene {
     public GameplayScene(Game game) {
         super(game);
 
+        // Resources
         animationManager = new AnimationManager();
         musicPlayer = new MusicInterpolator(
                 Gdx.files.internal("bossmain.wav"),
@@ -49,11 +51,16 @@ public class GameplayScene extends Scene {
         musicPlayer.play();
         camManager = new GameplayCamManager(game.getCamera());
 
+        // Generate board
         board = new Board(this);
+        board.generateTestWorld();
+
+        // Particles
         particles = new ArrayList<>();
         particlesToAdd = new ArrayList<>();
         particlesToRmv = new ArrayList<>();
 
+        // Game state
         state = State.PlayerThinking;
     }
 
@@ -114,6 +121,12 @@ public class GameplayScene extends Scene {
 
     }
 
+    public Vector2 getMousePosInGameWorld() {
+        return game.getMousePosInGameWorld();
+    }
+
+    // Getters and setters below
+
     public Board getBoard() {
         return board;
     }
@@ -157,4 +170,9 @@ public class GameplayScene extends Scene {
     public ArrayList<Particle> getParticlesToRmv() {
         return particlesToRmv;
     }
+
+    public OrthographicCamera getCamera() {
+        return game.getCamera();
+    }
+
 }

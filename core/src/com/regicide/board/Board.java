@@ -3,11 +3,13 @@ package com.regicide.board;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
 import com.regicide.board.pieces.Bishop;
 import com.regicide.board.pieces.Knight;
 import com.regicide.board.pieces.Rook;
-import com.regicide.board.player.Player;
+import com.regicide.movement.TilePosition;
+import com.regicide.player.Player;
 import com.regicide.scene.GameplayScene;
 
 public class Board implements IUpdatableDrawable {
@@ -29,36 +31,45 @@ public class Board implements IUpdatableDrawable {
     // The player
     protected Player player;
 
+    // Game state
+    protected GameplayScene gs;
+
     public Board(GameplayScene gs) {
+        this.gs = gs;
+
         rooms = new RoomGraph();
         roomGrid = new Room[width][height];
 
         pieceGrid = new Piece[width][height];
         pieceList = new ArrayList<>();
-
-        // Debug
-        rooms.addVertex(new Room(width, height));
-
-        Knight knight = new Knight(gs);
-        addPiece(knight, 3, 3);
-
-        Bishop bishop = new Bishop(gs);
-        addPiece(bishop, 2, 10);
-
-        Rook rook = new Rook(gs);
-        addPiece(rook, 6, 5);
-
-        player = new Player(gs);
-        addPiece(player, 10, 10);
     }
 
-    public void addPiece(Piece p, int i, int j) {
-        p.i = i;
-        p.j = j;
-        p.x = i * tileSize;
-        p.y = j * tileSize;
-        pieceGrid[i][j] = p;
+    // Debug
+    public void generateTestWorld() {
+        rooms.addVertex(new Room(width, height));
+
+        Knight knight = new Knight(gs, new TilePosition(3, 3));
+        addPiece(knight);
+
+        Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
+        addPiece(bishop);
+
+        Rook rook = new Rook(gs, new TilePosition(6, 5));
+        addPiece(rook);
+
+        player = new Player(gs, new TilePosition(10, 10));
+        addPiece(player);
+    }
+
+    public void addPiece(Piece p) {
+        pieceGrid[p.boardPos.i][p.boardPos.j] = p;
         pieceList.add(p);
+    }
+
+    public void movePiece(Piece p, TilePosition pos) {
+        pieceGrid[p.boardPos.i][p.boardPos.j] = null;
+        pieceGrid[pos.i][pos.j] = p;
+        p.moveTo(pos);
     }
 
     @Override
@@ -81,5 +92,21 @@ public class Board implements IUpdatableDrawable {
         for (Piece p : pieceList) {
             p.draw(batch);
         }
+    }
+
+    public boolean isWithinBounds(int i, int j) {
+        return i >= 0 && i < width && j >= 0 && j < height;
+    }
+
+    public TilePosition worldCoordsToBoardIndices(Vector2 pos) {
+        TilePosition result = new TilePosition((int) (pos.x / tileSize), (int) (pos.y / tileSize));
+        if (isWithinBounds(result.i, result.j))
+            return result;
+        else
+            return null;
+    }
+
+    public Vector2 boardIndicesToWorldCoords(TilePosition pos) {
+        return new Vector2(pos.i * tileSize, pos.j * tileSize);
     }
 }

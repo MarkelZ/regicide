@@ -1,7 +1,9 @@
 package com.regicide.board;
 
+import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
 import com.regicide.movement.MovePattern;
+import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
 
 public abstract class Piece implements IUpdatableDrawable {
@@ -31,12 +33,10 @@ public abstract class Piece implements IUpdatableDrawable {
     protected GameplayScene gs;
 
     // Position on the grid
-    protected int i;
-    protected int j;
+    protected TilePosition boardPos;
 
     // World position
-    protected float x;
-    protected float y;
+    protected Vector2 worldPos;
 
     // Kind of the piece
     protected Kind kind;
@@ -44,9 +44,15 @@ public abstract class Piece implements IUpdatableDrawable {
     // Movement pattern
     protected MovePattern movePattern;
 
-    public Piece(GameplayScene gs, Kind kind, MovePattern movePattern) {
+    public Piece(GameplayScene gs, Kind kind, MovePattern movePattern, TilePosition pos) {
         this.gs = gs;
         this.kind = kind;
         this.movePattern = movePattern;
+        this.moveTo(pos);
+    }
+
+    public void moveTo(TilePosition pos) {
+        boardPos = pos;
+        worldPos = gs.getBoard().boardIndicesToWorldCoords(pos);
     }
 }

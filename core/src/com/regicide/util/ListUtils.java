@@ -22,4 +22,13 @@ public class ListUtils {
             }
         }
     }
+
+    // Checks if list contains obj
+    public static <T> boolean containsComp(Collection<Comparable<T>> list, T obj) {
+        for (Comparable<T> x : list) {
+            if (x.compareTo(obj) == 0)
+                return true;
+        }
+        return false;
+    }
 }
