@@ -23,55 +23,40 @@ public class Player extends Piece {
         IdleMode
     }
 
-    public enum SelectionType {
-        // Player is selecting where to move
-        MoveSelect,
-        // Player is choosing how to use the active item
-        ActiveSelect,
-        // Player is selecting where to dash
-        DashSelect
-    }
-
     // Mode, what the player is currently doing
     protected Mode mode;
-
-    // Selection of tiles
-    protected SelectionType select;
-    protected MoveList ml;
 
     // Animation of the player's sprite
     private SpriteAnimation animation;
 
-    // Animation of the tile selection outline
-    private SpriteAnimation moveTileAnimation;
-    private SpriteAnimation activeTileAnimation;
-    private SpriteAnimation dashTileAnimation;
-
     // Player's inventory
     protected Inventory inventory;
+
+    // Tile selector
+    protected PlayerTileSelector tileSelector;
 
     public Player(GameplayScene gs, TilePosition pos) {
         super(gs, Kind.Friendly, new KingPattern(), pos);
 
-        // Animations
+        // Animation
         Texture texture = new Texture("flop.png");
         animation = new SpriteAnimation(texture, 16, 16, 8);
-        moveTileAnimation = new SpriteAnimation(new Texture("selectred.png"), 16, 16, 8);
-        activeTileAnimation = new SpriteAnimation(new Texture("selectpurple.png"), 16, 16, 8);
-        dashTileAnimation = new SpriteAnimation(new Texture("selectgreen.png"), 16, 16, 8);
 
-        // Moves
+        // State of the player
         mode = Mode.SelectMode;
-        select = SelectionType.MoveSelect;
+
+        // Tile selector;
+        tileSelector = new PlayerTileSelector(this, gs);
+        tileSelector.refreshMoveList();
     }
 
     @Override
     public void update(float tdelta) {
         // Update animations
         animation.update(tdelta);
-        moveTileAnimation.update(tdelta);
-        activeTileAnimation.update(tdelta);
-        dashTileAnimation.update(tdelta);
+
+        // Update selector
+        tileSelector.update(tdelta);
 
         // Update player
         switch (mode) {
@@ -82,31 +67,19 @@ public class Player extends Piece {
             case SelectMode:
                 // TODO
                 // This is for testing
+                // Teleports player to clicked position if it is an allowed move
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     Vector2 mousePos = gs.getMousePosInGameWorld();
                     TilePosition pos = gs.getBoard().worldCoordsToBoardIndices(mousePos);
-                    if (ml != null && TilePosition.listContains(ml.canMoveTo, pos)) {
+                    MoveList ml = tileSelector.getMoveList();
+                    if (TilePosition.listContains(ml.canMoveTo, pos)) {
                         gs.getBoard().movePiece(this, pos);
-                        ml = movePattern.getMoves(gs.getBoard(), boardPos.i, boardPos.j);
+                        tileSelector.refreshMoveList();
                     }
                 }
                 break;
             default:
                 break;
-        }
-
-        if (ml == null) {
-            switch (select) {
-                case ActiveSelect:
-                    break;
-                case DashSelect:
-                    break;
-                case MoveSelect:
-                    ml = movePattern.getMoves(gs.getBoard(), boardPos.i, boardPos.j);
-                    break;
-                default:
-                    break;
-            }
         }
     }
 
@@ -115,24 +88,23 @@ public class Player extends Piece {
         animation.draw(batch, worldPos.x, worldPos.y);
 
         // Draw select animation if in select mode
-        if (mode == Mode.SelectMode && ml != null) {
-            SpriteAnimation tileAnimation = null;
-            switch (select) {
-                case ActiveSelect:
-                    tileAnimation = activeTileAnimation;
-                    break;
-                case DashSelect:
-                    tileAnimation = dashTileAnimation;
-                    break;
-                case MoveSelect:
-                    tileAnimation = moveTileAnimation;
-                    break;
-            }
-            for (TilePosition pos : ml.canMoveTo) {
-                Vector2 posWorld = gs.getBoard().boardIndicesToWorldCoords(pos);
-                tileAnimation.draw(batch, posWorld.x, posWorld.y);
-            }
+        if (mode == Mode.SelectMode) {
+            tileSelector.draw(batch);
         }
+    }
+
+    public MoveList getMoveList() {
+        return movePattern.getMoves(gs.getBoard(), boardPos.i, boardPos.j);
+    }
+
+    public MoveList getActiveList() {
+        // TODO
+        return null;
+    }
+
+    public MoveList getDashList() {
+        // TODO
+        return null;
     }
 
 }
