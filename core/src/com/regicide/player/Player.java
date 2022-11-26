@@ -73,7 +73,7 @@ public class Player extends Piece {
                     TilePosition pos = gs.getBoard().worldCoordsToBoardIndices(mousePos);
                     MoveList ml = tileSelector.getMoveList();
                     if (TilePosition.listContains(ml.canMoveTo, pos)) {
-                        gs.getBoard().movePiece(this, pos);
+                        gs.getBoard().movePieceToPosition(this, pos);
                         tileSelector.refreshMoveList();
                     }
                 }

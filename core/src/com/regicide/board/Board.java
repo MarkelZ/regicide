@@ -14,9 +14,16 @@ import com.regicide.scene.GameplayScene;
 
 public class Board implements IUpdatableDrawable {
     public ArrayList<Piece> pieceList;
-    public Piece[][] pieceGrid;
 
+    // Piece buffers
+    public int currentBufferIndex;
+    public Piece[][] gridBuffer1;
+    public Piece[][] gridBuffer2;
+
+    // Graph of rooms
+    // It needs to be implemented yet, so it not used
     public RoomGraph rooms;
+
     // Grid representing which tile belongs to which room
     public Room[][] roomGrid;
 
@@ -40,7 +47,10 @@ public class Board implements IUpdatableDrawable {
         rooms = new RoomGraph();
         roomGrid = new Room[width][height];
 
-        pieceGrid = new Piece[width][height];
+        currentBufferIndex = 0;
+        gridBuffer1 = new Piece[width][height];
+        gridBuffer2 = new Piece[width][height];
+
         pieceList = new ArrayList<>();
     }
 
@@ -61,14 +71,24 @@ public class Board implements IUpdatableDrawable {
         addPiece(player);
     }
 
+    public Piece[][] getCurrentGrid() {
+        return currentBufferIndex == 0 ? gridBuffer1 : gridBuffer2;
+    }
+
+    public Piece[][] getNextGrid() {
+        return currentBufferIndex == 0 ? gridBuffer2 : gridBuffer1;
+    }
+
     public void addPiece(Piece p) {
-        pieceGrid[p.boardPos.i][p.boardPos.j] = p;
+        Piece[][] grid = getCurrentGrid();
+        grid[p.boardPos.i][p.boardPos.j] = p;
         pieceList.add(p);
     }
 
-    public void movePiece(Piece p, TilePosition pos) {
-        pieceGrid[p.boardPos.i][p.boardPos.j] = null;
-        pieceGrid[pos.i][pos.j] = p;
+    public void movePieceToPosition(Piece p, TilePosition pos) {
+        Piece[][] grid = getCurrentGrid();
+        grid[p.boardPos.i][p.boardPos.j] = null;
+        grid[pos.i][pos.j] = p;
         p.moveTo(pos);
     }
 
