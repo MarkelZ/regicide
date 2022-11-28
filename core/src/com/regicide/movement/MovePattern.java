@@ -1,7 +1,6 @@
 package com.regicide.movement;
 
 import com.regicide.board.Board;
-import com.regicide.board.Piece;
 
 public abstract class MovePattern {
     public abstract MoveList getMoves(Board board, int i, int j);
@@ -16,7 +15,7 @@ public abstract class MovePattern {
         }
 
         // If a piece is hit, add the piece's tile to attacked tiles and return true
-        if (board.getCurrentGrid()[i][j] != null) {
+        if (board.pieceGrid[i][j] != null) {
             result.canAttack.add(new TilePosition(i, j));
             return true;
         }
@@ -30,13 +29,11 @@ public abstract class MovePattern {
     protected static MoveList getLeaperMoves(Board board, int i, int j, TilePosition[] leapPattern) {
         MoveList result = new MoveList();
 
-        Piece[][] grid = board.getCurrentGrid();
-
         for (TilePosition pos : leapPattern) {
             int ni = i + pos.i;
             int nj = j + pos.j;
 
-            if (board.isWithinBounds(ni, nj) && grid[ni][nj] == null) {
+            if (board.isWithinBounds(ni, nj) && board.pieceGrid[ni][nj] == null) {
                 result.canMoveTo.add(new TilePosition(ni, nj));
             }
         }

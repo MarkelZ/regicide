@@ -16,9 +16,7 @@ public class Board implements IUpdatableDrawable {
     public ArrayList<Piece> pieceList;
 
     // Piece buffers
-    public int currentBufferIndex;
-    public Piece[][] gridBuffer1;
-    public Piece[][] gridBuffer2;
+    public Piece[][] pieceGrid;
 
     // Graph of rooms
     // It needs to be implemented yet, so it not used
@@ -47,9 +45,7 @@ public class Board implements IUpdatableDrawable {
         rooms = new RoomGraph();
         roomGrid = new Room[width][height];
 
-        currentBufferIndex = 0;
-        gridBuffer1 = new Piece[width][height];
-        gridBuffer2 = new Piece[width][height];
+        pieceGrid = new Piece[width][height];
 
         pieceList = new ArrayList<>();
     }
@@ -71,25 +67,9 @@ public class Board implements IUpdatableDrawable {
         addPiece(player);
     }
 
-    public Piece[][] getCurrentGrid() {
-        return currentBufferIndex == 0 ? gridBuffer1 : gridBuffer2;
-    }
-
-    public Piece[][] getNextGrid() {
-        return currentBufferIndex == 0 ? gridBuffer2 : gridBuffer1;
-    }
-
     public void addPiece(Piece p) {
-        Piece[][] grid = getCurrentGrid();
-        grid[p.boardPos.i][p.boardPos.j] = p;
+        pieceGrid[p.boardPos.i][p.boardPos.j] = p;
         pieceList.add(p);
-    }
-
-    public void movePieceToPosition(Piece p, TilePosition pos) {
-        Piece[][] grid = getCurrentGrid();
-        grid[p.boardPos.i][p.boardPos.j] = null;
-        grid[pos.i][pos.j] = p;
-        p.moveTo(pos);
     }
 
     @Override

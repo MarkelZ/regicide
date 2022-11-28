@@ -34,6 +34,7 @@ public abstract class Piece implements IUpdatableDrawable {
 
     // Position on the grid
     protected TilePosition boardPos;
+    protected TilePosition nextPos;
 
     // World position
     protected Vector2 worldPos;
@@ -48,11 +49,24 @@ public abstract class Piece implements IUpdatableDrawable {
         this.gs = gs;
         this.kind = kind;
         this.movePattern = movePattern;
+        boardPos = pos;
         this.moveTo(pos);
     }
 
     public void moveTo(TilePosition pos) {
+        Piece[][] grid = gs.getBoard().pieceGrid;
+        grid[boardPos.i][boardPos.j] = null;
+        grid[pos.i][pos.j] = this;
         boardPos = pos;
         worldPos = gs.getBoard().boardIndicesToWorldCoords(pos);
+    }
+
+    public void calculateNextPos() {
+        nextPos = new TilePosition(boardPos.i, boardPos.j);
+    }
+
+    public void moveToNextPos() {
+        // ...
+        nextPos = null;
     }
 }
