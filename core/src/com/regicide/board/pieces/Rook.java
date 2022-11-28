@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.regicide.board.Board;
 import com.regicide.board.Piece;
 import com.regicide.movement.BishopPattern;
 import com.regicide.movement.TilePosition;
@@ -28,10 +27,10 @@ public class Rook extends Piece {
         // Debug
         // When space is pressed, explode into tiny pieces (Without despawning myself)
         if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-            Board b = gs.getBoard();
             for (int _ = 0; _ < 20; _++) {
                 gs.addParticle(
-                        new BreakParticle(gs, new Vector2(worldPos.x + b.halfTileSize, worldPos.y + b.halfTileSize),
+                        new BreakParticle(gs,
+                                new Vector2(worldPos.x + board.halfTileSize, worldPos.y + board.halfTileSize),
                                 animationSprite, 8, 8));
             }
         }

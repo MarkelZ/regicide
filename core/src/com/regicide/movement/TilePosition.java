@@ -21,6 +21,18 @@ public class TilePosition implements Comparable<Object> {
         }
     }
 
+    @Override
+    public String toString() {
+        return "tp[" + i + ", " + j + "]";
+    }
+
+    // Distance squared to tile position
+    public int distance2(TilePosition pos) {
+        int diffi = i - pos.i;
+        int diffj = j - pos.j;
+        return diffi * diffi + diffj * diffj;
+    }
+
     // TODO: meh
     public static boolean listContains(List<TilePosition> list, TilePosition position) {
         for (TilePosition p : list)

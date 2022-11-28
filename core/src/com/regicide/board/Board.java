@@ -1,13 +1,12 @@
 package com.regicide.board;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
-import com.regicide.board.pieces.Bishop;
-import com.regicide.board.pieces.Knight;
-import com.regicide.board.pieces.Rook;
+import com.regicide.board.pieces.Elephant;
 import com.regicide.movement.TilePosition;
 import com.regicide.player.Player;
 import com.regicide.scene.GameplayScene;
@@ -54,22 +53,30 @@ public class Board implements IUpdatableDrawable {
     public void generateTestWorld() {
         rooms.addVertex(new Room(width, height));
 
-        Knight knight = new Knight(gs, new TilePosition(3, 3));
-        addPiece(knight);
+        // Knight knight = new Knight(gs, new TilePosition(3, 3));
+        // addPiece(knight);
+        //
+        // Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
+        // addPiece(bishop);
+        //
+        // Rook rook = new Rook(gs, new TilePosition(6, 5));
+        // addPiece(rook);
 
-        Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
-        addPiece(bishop);
-
-        Rook rook = new Rook(gs, new TilePosition(6, 5));
-        addPiece(rook);
+        Elephant elephant = new Elephant(gs, new TilePosition(6, 5));
+        addPiece(elephant);
 
         player = new Player(gs, new TilePosition(10, 10));
         addPiece(player);
     }
 
+    // Add piece to board
     public void addPiece(Piece p) {
         pieceGrid[p.boardPos.i][p.boardPos.j] = p;
         pieceList.add(p);
+    }
+
+    public Piece getPiece(TilePosition pos) {
+        return pieceGrid[pos.i][pos.j];
     }
 
     @Override
@@ -94,6 +101,7 @@ public class Board implements IUpdatableDrawable {
         }
     }
 
+    // Whether (i, j) is within the bounds of the board
     public boolean isWithinBounds(int i, int j) {
         return i >= 0 && i < width && j >= 0 && j < height;
     }
@@ -108,5 +116,25 @@ public class Board implements IUpdatableDrawable {
 
     public Vector2 boardIndicesToWorldCoords(TilePosition pos) {
         return new Vector2(pos.i * tileSize, pos.j * tileSize);
+    }
+
+    // Move every piece for one turn
+    public void computeNextPiecePositions() {
+        // Randomly iterate through the pieces
+        ArrayList<Piece> piecesRand = new ArrayList<>(pieceList);
+        Collections.shuffle(piecesRand);
+
+        for (Piece p : piecesRand) {
+            p.calculateNextPos();
+        }
+
+        // Move pieces to next positions
+        for (Piece p : pieceList) {
+            p.moveToNextPos();
+        }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

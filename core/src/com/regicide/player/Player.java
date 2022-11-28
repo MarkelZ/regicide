@@ -70,11 +70,12 @@ public class Player extends Piece {
                 // Teleports player to clicked position if it is an allowed move
                 if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
                     Vector2 mousePos = gs.getMousePosInGameWorld();
-                    TilePosition pos = gs.getBoard().worldCoordsToBoardIndices(mousePos);
+                    TilePosition pos = board.worldCoordsToBoardIndices(mousePos);
                     MoveList ml = tileSelector.getMoveList();
                     if (TilePosition.listContains(ml.canMoveTo, pos)) {
                         moveTo(pos);
                         tileSelector.refreshMoveList();
+                        board.computeNextPiecePositions();
                     }
                 }
                 break;
@@ -94,7 +95,7 @@ public class Player extends Piece {
     }
 
     public MoveList getMoveList() {
-        return movePattern.getMoves(gs.getBoard(), boardPos.i, boardPos.j);
+        return movePattern.getMoves(board, boardPos.i, boardPos.j);
     }
 
     public MoveList getActiveList() {
