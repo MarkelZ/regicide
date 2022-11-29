@@ -62,6 +62,14 @@ public abstract class Piece implements IUpdatableDrawable {
 
     public void moveTo(TilePosition pos) {
         Piece[][] grid = board.pieceGrid;
+
+        // DEBUG: Check that we are not moving to a tile occupied by another piece
+        Piece pp = grid[pos.i][pos.j];
+        if (pp != this && pp != null) {
+            System.out.println("WARNING: Piece on tile " + boardPos + " is moving to tile" + pos
+                    + ", but that tile is already occupied!");
+        }
+
         grid[boardPos.i][boardPos.j] = null;
         grid[pos.i][pos.j] = this;
         boardPos = pos;

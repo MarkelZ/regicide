@@ -23,7 +23,7 @@ public class TilePosition implements Comparable<Object> {
 
     @Override
     public String toString() {
-        return "tp[" + i + ", " + j + "]";
+        return "(" + i + ", " + j + ")";
     }
 
     // Distance squared to tile position

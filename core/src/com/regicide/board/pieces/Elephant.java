@@ -95,7 +95,6 @@ public class Elephant extends Piece {
             nextPos = closest;
             // Place piece at next position so that other pieces won't overlap
             board.pieceGrid[nextPos.i][nextPos.j] = this;
-            System.out.println(nextPos);
             return;
         }
 

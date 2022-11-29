@@ -74,8 +74,8 @@ public class Player extends Piece {
                     MoveList ml = tileSelector.getMoveList();
                     if (TilePosition.listContains(ml.canMoveTo, pos)) {
                         moveTo(pos);
-                        tileSelector.refreshMoveList();
                         board.computeNextPiecePositions();
+                        tileSelector.refreshMoveList();
                     }
                 }
                 break;
