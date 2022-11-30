@@ -2,6 +2,7 @@ package com.regicide.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class SpriteAnimation extends Animation {
     // Texture of the animaiton
@@ -28,8 +29,9 @@ public class SpriteAnimation extends Animation {
     // Tick counter which resets back to 0 when it reaches tickRate
     protected int tickCount;
 
-    public SpriteAnimation(Texture animationSprite, int frameWidth, int frameHeight, int tickRate) {
+    public SpriteAnimation(Texture animationSprite, Vector2 position, int frameWidth, int frameHeight, int tickRate) {
         this.animationSprite = animationSprite;
+        this.position = position;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
 
@@ -63,13 +65,13 @@ public class SpriteAnimation extends Animation {
         }
     }
 
-    public void draw(SpriteBatch batch, float x, float y) {
+    public void draw(SpriteBatch batch) {
         // If not visible, do nothing
         if (!isVisible)
             return;
 
         // Draw the rectangular segment of sprite corresponding to the frame
-        batch.draw(animationSprite, x, y,
+        batch.draw(animationSprite, position.x, position.y,
                 frameIndex * frameWidth, animationIndex * frameHeight,
                 frameWidth, frameHeight);
     }
@@ -90,5 +92,9 @@ public class SpriteAnimation extends Animation {
         } else {
             this.tickRate = tickRate;
         }
+    }
+
+    public Texture getTexture() {
+        return animationSprite;
     }
 }

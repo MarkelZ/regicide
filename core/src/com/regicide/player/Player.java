@@ -26,9 +26,6 @@ public class Player extends Piece {
     // Mode, what the player is currently doing
     protected Mode mode;
 
-    // Animation of the player's sprite
-    private SpriteAnimation animation;
-
     // Player's inventory
     protected Inventory inventory;
 
@@ -36,11 +33,14 @@ public class Player extends Piece {
     protected PlayerTileSelector tileSelector;
 
     public Player(GameplayScene gs, TilePosition pos) {
-        super(gs, Kind.Friendly, new KingPattern(), pos);
+        super(gs, Kind.Friendly, pos);
 
         // Animation
         Texture texture = new Texture("flop.png");
-        animation = new SpriteAnimation(texture, 16, 16, 8);
+        animation = new SpriteAnimation(texture, worldPos, 16, 16, 8);
+
+        // Move pattern
+        this.movePattern = new KingPattern();
 
         // State of the player
         mode = Mode.SelectMode;
@@ -86,7 +86,7 @@ public class Player extends Piece {
 
     @Override
     public void draw(SpriteBatch batch) {
-        animation.draw(batch, worldPos.x, worldPos.y);
+        animation.draw(batch);
 
         // Draw select animation if in select mode
         if (mode == Mode.SelectMode) {

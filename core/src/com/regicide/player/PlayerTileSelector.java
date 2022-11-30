@@ -40,9 +40,9 @@ public class PlayerTileSelector implements IUpdatableDrawable {
         this.gs = gs;
 
         // Initialize the animations
-        moveTileAnimation = new SpriteAnimation(new Texture("selectred.png"), 16, 16, 8);
-        activeTileAnimation = new SpriteAnimation(new Texture("selectpurple.png"), 16, 16, 8);
-        dashTileAnimation = new SpriteAnimation(new Texture("selectgreen.png"), 16, 16, 8);
+        moveTileAnimation = new SpriteAnimation(new Texture("selectred.png"), new Vector2(), 16, 16, 8);
+        activeTileAnimation = new SpriteAnimation(new Texture("selectpurple.png"), new Vector2(), 16, 16, 8);
+        dashTileAnimation = new SpriteAnimation(new Texture("selectgreen.png"), new Vector2(), 16, 16, 8);
 
         // Set selection type to move selection
         select = SelectionType.MoveSelect;
@@ -93,7 +93,8 @@ public class PlayerTileSelector implements IUpdatableDrawable {
         // Draw the animation on each selected tile
         for (TilePosition pos : ml.canMoveTo) {
             Vector2 posWorld = gs.getBoard().boardIndicesToWorldCoords(pos);
-            tileAnimation.draw(batch, posWorld.x, posWorld.y);
+            tileAnimation.setPosition(posWorld);
+            tileAnimation.draw(batch);
         }
     }
 

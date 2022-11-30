@@ -2,6 +2,7 @@ package com.regicide.board;
 
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
+import com.regicide.animation.SpriteAnimation;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.MovePattern;
 import com.regicide.movement.TilePosition;
@@ -47,13 +48,24 @@ public abstract class Piece implements IUpdatableDrawable {
     // Movement pattern
     protected MovePattern movePattern;
 
-    public Piece(GameplayScene gs, Kind kind, MovePattern movePattern, TilePosition pos) {
+    // Sprite animation
+    protected SpriteAnimation animation;
+
+    public Piece(GameplayScene gs, Kind kind, TilePosition boardPos) {
         this.gs = gs;
-        board = gs.getBoard();
         this.kind = kind;
-        this.movePattern = movePattern;
-        boardPos = pos;
-        this.moveTo(pos);
+        this.boardPos = boardPos;
+        board = gs.getBoard();
+
+        this.moveTo(boardPos);
+    }
+
+    public void setMovePattern(MovePattern pattern) {
+        this.movePattern = pattern;
+    }
+
+    public void setAnimation(SpriteAnimation animation) {
+        this.animation = animation;
     }
 
     public MoveList getMoves() {
@@ -74,6 +86,9 @@ public abstract class Piece implements IUpdatableDrawable {
         grid[pos.i][pos.j] = this;
         boardPos = pos;
         worldPos = board.boardIndicesToWorldCoords(pos);
+
+        if (animation != null)
+            animation.setPosition(worldPos);
     }
 
     public void calculateNextPos() {
@@ -87,5 +102,9 @@ public abstract class Piece implements IUpdatableDrawable {
 
     public Kind getKind() {
         return kind;
+    }
+
+    public Vector2 getWorldPos() {
+        return worldPos;
     }
 }

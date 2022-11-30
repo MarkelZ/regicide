@@ -1,8 +1,9 @@
-package com.regicide.board;
+package com.regicide.board.pieces;
 
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.regicide.board.Piece;
 import com.regicide.movement.NonMoving;
 import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
@@ -12,8 +13,10 @@ public class PieceSpawner extends Piece {
     private Distribution<Piece> distribution;
 
     public PieceSpawner(GameplayScene gs, TilePosition pos, Distribution<Piece> distribution) {
-        super(gs, Kind.None, new NonMoving(), pos);
+        super(gs, Kind.None, pos);
         this.distribution = distribution;
+        this.movePattern = new NonMoving();
+        this.animation = null;
     }
 
     @Override
