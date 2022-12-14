@@ -8,6 +8,7 @@ import com.regicide.input.InputManager;
 import com.regicide.input.InputManager.Action;
 import com.regicide.movement.KingPattern;
 import com.regicide.movement.MoveList;
+import com.regicide.movement.RookPattern;
 import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
 import com.regicide.scene.GameplayScene.State;
@@ -28,7 +29,8 @@ public class Player extends Piece {
         animation = new SpriteAnimation(texture, worldPos, 16, 16, 8);
 
         // Move pattern
-        this.movePattern = new KingPattern();
+        // this.movePattern = new KingPattern();
+        this.movePattern = new RookPattern();
 
         // Tile selector;
         tileSelector = new PlayerTileSelector(this, gs);

@@ -7,7 +7,10 @@ import java.util.List;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
+import com.regicide.board.pieces.Bishop;
 import com.regicide.board.pieces.Elephant;
+import com.regicide.board.pieces.Knight;
+import com.regicide.board.pieces.Rook;
 import com.regicide.movement.TilePosition;
 import com.regicide.player.Player;
 import com.regicide.scene.GameplayScene;
@@ -57,16 +60,16 @@ public class Board implements IUpdatableDrawable {
     public void generateTestWorld() {
         rooms.addVertex(new Room(width, height));
 
-        // Knight knight = new Knight(gs, new TilePosition(3, 3));
-        // addPiece(knight);
-        //
-        // Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
-        // addPiece(bishop);
-        //
+        Knight knight = new Knight(gs, new TilePosition(3, 3));
+        addPiece(knight);
+
+        Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
+        addPiece(bishop);
+
         // Rook rook = new Rook(gs, new TilePosition(6, 5));
         // addPiece(rook);
 
-        Elephant elephant = new Elephant(gs, new TilePosition(6, 5));
+        Elephant elephant = new Elephant(gs, new TilePosition(6, 7));
         addPiece(elephant);
 
         player = new Player(gs, new TilePosition(10, 10));

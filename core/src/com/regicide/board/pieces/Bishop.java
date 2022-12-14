@@ -28,4 +28,9 @@ public class Bishop extends HostilePiece {
     public void draw(SpriteBatch batch) {
         super.draw(batch);
     }
+
+    @Override
+    public void calculateNextPos() {
+        nextPosClosestToPlayer();
+    }
 }
