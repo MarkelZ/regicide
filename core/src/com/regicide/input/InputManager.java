@@ -6,7 +6,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
-public class Input {
+public class InputManager {
     public enum Action {
         Up,
         Down,

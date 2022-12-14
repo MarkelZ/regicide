@@ -1,7 +1,11 @@
 package com.regicide.board;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
+import com.regicide.animation.KeyFrame;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.MovePattern;
@@ -89,6 +93,17 @@ public abstract class Piece implements IUpdatableDrawable {
 
         if (animation != null)
             animation.setPosition(worldPos);
+    }
+
+    // Animates dashing into the given tileposition and back
+    // Duration should be even, if odd then a frame may be dropped
+    public void animatePieceAttack(TilePosition pos, int duration) {
+        Vector2 target = board.boardIndicesToWorldCoords(pos);
+        int halfduration = duration / 2;
+        List<KeyFrame> keyFrames = new LinkedList<>();
+        keyFrames.add(new KeyFrame(target, halfduration));
+        keyFrames.add(new KeyFrame(worldPos, halfduration));
+        animation.interpolate(keyFrames);
     }
 
     public void calculateNextPos() {

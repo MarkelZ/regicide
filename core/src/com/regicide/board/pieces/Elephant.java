@@ -8,6 +8,7 @@ import com.regicide.board.Piece;
 import com.regicide.movement.KingPattern;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.TilePosition;
+import com.regicide.movement.WazirPattern;
 import com.regicide.scene.GameplayScene;
 
 public class Elephant extends HostilePiece {
@@ -20,7 +21,8 @@ public class Elephant extends HostilePiece {
             texture = new Texture("pieces/elephant.png");
         }
 
-        initialize(new KingPattern(), texture);
+        // initialize(new KingPattern(), texture);
+        initialize(new WazirPattern(), texture);
     }
 
     @Override

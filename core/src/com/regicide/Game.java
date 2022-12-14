@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.regicide.scene.Scene;
-import com.regicide.input.Input;
+import com.regicide.input.InputManager;
 import com.regicide.scene.GameplayScene;
 
 public class Game extends ApplicationAdapter {
@@ -42,7 +42,7 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(WIDTH * scale, HEIGHT * scale);
 
 		// Input
-		Input.initialize();
+		InputManager.initialize();
 
 		// Game state
 		gameState = new GameplayScene(this);

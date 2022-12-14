@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
-import com.regicide.input.Input;
-import com.regicide.input.Input.Action;
+import com.regicide.input.InputManager;
+import com.regicide.input.InputManager.Action;
 import com.regicide.movement.MovePattern;
 import com.regicide.movement.TilePosition;
 import com.regicide.particle.BreakParticle;
@@ -29,7 +29,7 @@ public abstract class HostilePiece extends Piece {
 
         // Debug
         // Spawn some break particles
-        if (Input.isActionJustPressed(Action.Dash)) {
+        if (InputManager.isActionJustPressed(Action.Dash)) {
             for (int _ = 0; _ < 20; _++) {
                 gs.addParticle(
                         new BreakParticle(gs,

@@ -1,5 +1,7 @@
 package com.regicide.player;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
+import com.regicide.input.InputManager;
+import com.regicide.input.InputManager.Action;
 import com.regicide.movement.KingPattern;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.TilePosition;
@@ -81,6 +85,12 @@ public class Player extends Piece {
                 break;
             default:
                 break;
+        }
+
+        // Debug
+        if (InputManager.isActionJustPressed(Action.Move)) {
+            TilePosition target = new TilePosition(boardPos.i + 1, boardPos.j + 1);
+            animatePieceAttack(target, 20);
         }
     }
 

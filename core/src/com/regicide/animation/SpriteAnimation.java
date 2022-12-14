@@ -50,6 +50,8 @@ public class SpriteAnimation extends Animation {
     }
 
     public void update(float tdelta) {
+        super.update(tdelta);
+
         // If animation disabled, do nothing
         if (!isEnabled)
             return;

@@ -1,8 +1,8 @@
 package com.regicide.camera;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.regicide.input.Input;
-import com.regicide.input.Input.Action;
+import com.regicide.input.InputManager;
+import com.regicide.input.InputManager.Action;
 
 public class GameplayCamManager extends CameraManager {
 
@@ -12,13 +12,13 @@ public class GameplayCamManager extends CameraManager {
 
     @Override
     public void update(float tdelta) {
-        if (Input.isActionPressed(Action.Up))
+        if (InputManager.isActionPressed(Action.Up))
             camera.translate(0, 2, 0);
-        if (Input.isActionPressed(Action.Down))
+        if (InputManager.isActionPressed(Action.Down))
             camera.translate(0, -2, 0);
-        if (Input.isActionPressed(Action.Right))
+        if (InputManager.isActionPressed(Action.Right))
             camera.translate(2, 0, 0);
-        if (Input.isActionPressed(Action.Left))
+        if (InputManager.isActionPressed(Action.Left))
             camera.translate(-2, 0, 0);
 
         super.update(tdelta);
