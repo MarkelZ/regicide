@@ -3,6 +3,7 @@ package com.regicide.scene;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -12,8 +13,11 @@ import com.regicide.animation.AnimationManager;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Board;
 import com.regicide.camera.GameplayCamManager;
+import com.regicide.movement.MoveList;
+import com.regicide.movement.TilePosition;
 import com.regicide.music.MusicInterpolator;
 import com.regicide.particle.Particle;
+import com.regicide.player.Player;
 
 import box2dLight.RayHandler;
 
@@ -88,10 +92,29 @@ public class GameplayScene extends Scene {
         // State
         switch (state) {
             case PlayerThinking:
+                if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+                    Vector2 mousePos = getMousePosInGameWorld();
+                    TilePosition pos = board.worldCoordsToBoardIndices(mousePos);
+                    Player player = board.getPlayer();
+                    MoveList ml = player.getSelectionList();
+                    if (TilePosition.listContains(ml.canMoveTo, pos)) {
+                        player.animateAndMoveTo(pos, 20);
+                        state = State.PlayerTransitioning;
+                    }
+                }
                 break;
             case PlayerTransitioning:
+                if (!board.getPlayer().isAnimating()) {
+                    state = State.EnemyTransitioning;
+                    board.computeNextPiecePositions();
+                    board.getPlayer().refreshSelector();
+                    state = State.EnemyTransitioning;
+                }
                 break;
             case EnemyTransitioning:
+                if (!board.isAnyPieceAnimating()) {
+                    state = State.PlayerThinking;
+                }
                 break;
             default:
                 System.out.println("WARNING: Gameplay scene in unknown state.");

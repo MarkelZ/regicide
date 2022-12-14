@@ -1,6 +1,5 @@
 package com.regicide.animation;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -116,6 +115,10 @@ public abstract class Animation {
 
     public void setPosition(float x, float y) {
         position = new Vector2(x, y);
+    }
+
+    public boolean isInterpolating() {
+        return isInterpolating;
     }
 
 }

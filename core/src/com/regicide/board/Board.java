@@ -2,6 +2,7 @@ package com.regicide.board;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -38,6 +39,9 @@ public class Board implements IUpdatableDrawable {
     // Game state
     protected GameplayScene gs;
 
+    // List of pieces that are performing an animation
+    protected List<Piece> animatingPieces;
+
     public Board(GameplayScene gs) {
         this.gs = gs;
 
@@ -67,6 +71,8 @@ public class Board implements IUpdatableDrawable {
 
         player = new Player(gs, new TilePosition(10, 10));
         addPiece(player);
+
+        animatingPieces = new ArrayList<>();
     }
 
     // Add piece to board
@@ -88,6 +94,14 @@ public class Board implements IUpdatableDrawable {
         for (Piece p : pieceList) {
             p.update(tdelta);
         }
+
+        List<Piece> animRemove = new ArrayList<>();
+        for (Piece p : animatingPieces) {
+            if (!p.isAnimating()) {
+                animRemove.add(p);
+            }
+        }
+        animatingPieces.removeAll(animRemove);
     }
 
     @Override
@@ -132,9 +146,26 @@ public class Board implements IUpdatableDrawable {
         for (Piece p : pieceList) {
             p.moveToNextPos();
         }
+
+        // Animation
+        animatingPieces = new ArrayList<>(pieceList);
     }
 
     public Player getPlayer() {
         return player;
+    }
+
+    public boolean isAnyPieceAnimating() {
+        if (animatingPieces == null) {
+            return false;
+        }
+
+        for (Piece piece : animatingPieces) {
+            if (piece.isAnimating()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

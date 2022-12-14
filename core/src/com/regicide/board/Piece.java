@@ -106,12 +106,22 @@ public abstract class Piece implements IUpdatableDrawable {
         animation.interpolate(keyFrames);
     }
 
+    public void animateAndMoveTo(TilePosition pos, int duration) {
+        Vector2 originPos = new Vector2(worldPos);
+        moveTo(pos);
+        Vector2 target = board.boardIndicesToWorldCoords(pos);
+        List<KeyFrame> keyFrames = new LinkedList<>();
+        keyFrames.add(new KeyFrame(target, duration));
+        animation.setPosition(originPos);
+        animation.interpolate(keyFrames);
+    }
+
     public void calculateNextPos() {
         nextPos = new TilePosition(boardPos.i, boardPos.j);
     }
 
     public void moveToNextPos() {
-        moveTo(nextPos);
+        animateAndMoveTo(nextPos, 20);
         nextPos = null;
     }
 
@@ -121,5 +131,9 @@ public abstract class Piece implements IUpdatableDrawable {
 
     public Vector2 getWorldPos() {
         return worldPos;
+    }
+
+    public boolean isAnimating() {
+        return animation.isInterpolating();
     }
 }

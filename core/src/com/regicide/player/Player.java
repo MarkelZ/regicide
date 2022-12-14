@@ -1,12 +1,7 @@
 package com.regicide.player;
 
-import java.util.LinkedList;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
 import com.regicide.input.InputManager;
@@ -15,20 +10,9 @@ import com.regicide.movement.KingPattern;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
+import com.regicide.scene.GameplayScene.State;
 
 public class Player extends Piece {
-
-    public enum Mode {
-        // Player is chosing the next action
-        SelectMode,
-        // Animating action
-        AnimatingMode,
-        // Idle, waiting for oponent's actions
-        IdleMode
-    }
-
-    // Mode, what the player is currently doing
-    protected Mode mode;
 
     // Player's inventory
     protected Inventory inventory;
@@ -46,9 +30,6 @@ public class Player extends Piece {
         // Move pattern
         this.movePattern = new KingPattern();
 
-        // State of the player
-        mode = Mode.SelectMode;
-
         // Tile selector;
         tileSelector = new PlayerTileSelector(this, gs);
         tileSelector.refreshMoveList();
@@ -62,33 +43,10 @@ public class Player extends Piece {
         // Update selector
         tileSelector.update(tdelta);
 
-        // Update player
-        switch (mode) {
-            case AnimatingMode:
-                break;
-            case IdleMode:
-                break;
-            case SelectMode:
-                // TODO
-                // This is for testing
-                // Teleports player to clicked position if it is an allowed move
-                if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                    Vector2 mousePos = gs.getMousePosInGameWorld();
-                    TilePosition pos = board.worldCoordsToBoardIndices(mousePos);
-                    MoveList ml = tileSelector.getMoveList();
-                    if (TilePosition.listContains(ml.canMoveTo, pos)) {
-                        moveTo(pos);
-                        board.computeNextPiecePositions();
-                        tileSelector.refreshMoveList();
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
         // Debug
-        if (InputManager.isActionJustPressed(Action.Move)) {
+        if (InputManager.isActionJustPressed(Action.Move))
+
+        {
             TilePosition target = new TilePosition(boardPos.i + 1, boardPos.j + 1);
             animatePieceAttack(target, 20);
         }
@@ -99,7 +57,7 @@ public class Player extends Piece {
         animation.draw(batch);
 
         // Draw select animation if in select mode
-        if (mode == Mode.SelectMode) {
+        if (gs.getState() == State.PlayerThinking) {
             tileSelector.draw(batch);
         }
     }
@@ -116,6 +74,14 @@ public class Player extends Piece {
     public MoveList getDashList() {
         // TODO
         return null;
+    }
+
+    public MoveList getSelectionList() {
+        return tileSelector.getMoveList();
+    }
+
+    public void refreshSelector() {
+        tileSelector.refreshMoveList();
     }
 
 }
