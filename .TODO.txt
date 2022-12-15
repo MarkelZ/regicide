@@ -1,0 +1,17 @@
+List of different features to be implemented. 
+Sequential features depend in each other, most dependent features being the lowest in the list. 
+Independet features can be implemented any time.
+
+
+== Sequential ==
+Piece stats
+Player stats
+Piece attacks
+Items as observers
+Multiple rooms (not just one big grid)
+Spawners
+Room generation
+
+
+== Independet == 
+Interpolation class used by music interpolator and animation
