@@ -2,8 +2,8 @@ package com.regicide.board.pieces;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.regicide.movement.KingPattern;
 import com.regicide.movement.TilePosition;
-import com.regicide.movement.WazirPattern;
 import com.regicide.scene.GameplayScene;
 
 public class Elephant extends HostilePiece {
@@ -17,7 +17,7 @@ public class Elephant extends HostilePiece {
         }
 
         // initialize(new KingPattern(), texture);
-        initialize(new WazirPattern(), texture);
+        initialize(new KingPattern(), texture);
     }
 
     @Override

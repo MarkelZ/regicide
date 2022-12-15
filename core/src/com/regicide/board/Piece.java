@@ -10,6 +10,7 @@ import com.regicide.animation.SpriteAnimation;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.MovePattern;
 import com.regicide.movement.TilePosition;
+import com.regicide.particle.BreakParticle;
 import com.regicide.scene.GameplayScene;
 
 public abstract class Piece implements IUpdatableDrawable {
@@ -135,5 +136,19 @@ public abstract class Piece implements IUpdatableDrawable {
 
     public boolean isAnimating() {
         return animation.isInterpolating();
+    }
+
+    protected void explode(int numparticles) {
+        for (int _ = 0; _ < numparticles; _++) {
+            gs.addParticle(
+                    new BreakParticle(gs,
+                            new Vector2(worldPos.x + board.halfTileSize, worldPos.y + board.halfTileSize),
+                            animation.getTexture(), 8, 8));
+        }
+    }
+
+    protected void die() {
+        explode(10);
+        gs.getBoard().removePiece(this);
     }
 }

@@ -10,13 +10,17 @@ import com.regicide.IUpdatableDrawable;
 import com.regicide.board.pieces.Bishop;
 import com.regicide.board.pieces.Elephant;
 import com.regicide.board.pieces.Knight;
-import com.regicide.board.pieces.Rook;
 import com.regicide.movement.TilePosition;
 import com.regicide.player.Player;
 import com.regicide.scene.GameplayScene;
 
 public class Board implements IUpdatableDrawable {
-    public ArrayList<Piece> pieceList;
+    // List of pieces
+    public List<Piece> pieceList;
+
+    // List of pieces to add and to remove
+    protected List<Piece> piecesToAdd;
+    protected List<Piece> piecesToRmv;
 
     // Piece buffers
     public Piece[][] pieceGrid;
@@ -54,6 +58,8 @@ public class Board implements IUpdatableDrawable {
         pieceGrid = new Piece[width][height];
 
         pieceList = new ArrayList<>();
+        piecesToAdd = new ArrayList<>();
+        piecesToRmv = new ArrayList<>();
     }
 
     // Debug
@@ -78,26 +84,33 @@ public class Board implements IUpdatableDrawable {
         animatingPieces = new ArrayList<>();
     }
 
-    // Add piece to board
-    public void addPiece(Piece p) {
-        pieceGrid[p.boardPos.i][p.boardPos.j] = p;
-        pieceList.add(p);
-    }
-
-    public Piece getPiece(TilePosition pos) {
-        return pieceGrid[pos.i][pos.j];
-    }
-
     @Override
     public void update(float tdelta) {
+        // Add pieces
+        for (Piece p : piecesToAdd) {
+            pieceGrid[p.boardPos.i][p.boardPos.j] = p;
+            pieceList.add(p);
+        }
+        piecesToAdd.clear();
+
+        // Remove pieces
+        for (Piece p : piecesToRmv) {
+            pieceGrid[p.boardPos.i][p.boardPos.j] = null;
+            pieceList.remove(p);
+        }
+        piecesToRmv.clear();
+
+        // Update rooms
         for (Room r : rooms.getVertexList()) {
             r.update(tdelta);
         }
 
+        // Update pieces
         for (Piece p : pieceList) {
             p.update(tdelta);
         }
 
+        // Piece animations
         List<Piece> animRemove = new ArrayList<>();
         for (Piece p : animatingPieces) {
             if (!p.isAnimating()) {
@@ -116,6 +129,21 @@ public class Board implements IUpdatableDrawable {
         for (Piece p : pieceList) {
             p.draw(batch);
         }
+    }
+
+    // Add piece to the board
+    public void addPiece(Piece p) {
+        piecesToAdd.add(p);
+    }
+
+    // Remove piece from the board
+    public void removePiece(Piece p) {
+        piecesToRmv.add(p);
+    }
+
+    // Get the piece at tile position pos
+    public Piece getPiece(TilePosition pos) {
+        return pieceGrid[pos.i][pos.j];
     }
 
     // Whether (i, j) is within the bounds of the board
