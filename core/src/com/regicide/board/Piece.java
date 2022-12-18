@@ -67,7 +67,7 @@ public abstract class Piece implements IUpdatableDrawable {
     }
 
     public void takeDamage(Piece piece, DamageType damage, float value) {
-
+        // Default to do nothing
     }
 
     public void moveTo(TilePosition pos) {
@@ -154,6 +154,6 @@ public abstract class Piece implements IUpdatableDrawable {
 
     protected void die() {
         explode(10);
-        gs.getBoard().removePiece(this);
+        gs.getBoard().pieceDieAndRemove(this);
     }
 }

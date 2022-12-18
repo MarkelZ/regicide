@@ -211,6 +211,13 @@ public class Board implements IUpdatableDrawable {
         eventManager.notifyTilePositionAttacked(actor, attackedPos, damage, value);
     }
 
+    // Remove piece from
+    // DOES NOT CALL piece.die(), piece is responsible for dying
+    public void pieceDieAndRemove(Piece piece) {
+        removePiece(piece);
+        eventManager.notifyPieceDied(piece);
+    }
+
     public Player getPlayer() {
         return player;
     }

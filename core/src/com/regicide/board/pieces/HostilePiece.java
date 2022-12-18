@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
+import com.regicide.fight.DamageType;
 import com.regicide.input.InputManager;
 import com.regicide.input.InputManager.Action;
 import com.regicide.movement.MoveList;
@@ -14,6 +15,8 @@ import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
 
 public abstract class HostilePiece extends Piece {
+    private float healthbar;
+
     public HostilePiece(GameplayScene gs, TilePosition pos) {
         super(gs, Kind.Hostile, pos);
     }
@@ -38,6 +41,17 @@ public abstract class HostilePiece extends Piece {
     @Override
     public void draw(SpriteBatch batch) {
         animation.draw(batch);
+    }
+
+    // Default behavior for taking damage
+    // Override if more sophisticated behavior is needed,
+    // such as being immune to certain damage types
+    @Override
+    public void takeDamage(Piece piece, DamageType damage, float value) {
+        healthbar -= value;
+        if (healthbar <= 0) {
+            die();
+        }
     }
 
     // Generic method for moving to the tile closest to the player
