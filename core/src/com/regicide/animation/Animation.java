@@ -1,5 +1,6 @@
 package com.regicide.animation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,7 +24,7 @@ public abstract class Animation {
     // The positions to interpolate between
     protected Vector2 interpOrigin;
     protected Vector2 interpTarget;
-    protected List<KeyFrame> keyFrames;
+    protected final List<KeyFrame> keyFrames = new ArrayList<>();
 
     // Timer for interpolation
     protected int interpTimer;
@@ -36,6 +37,7 @@ public abstract class Animation {
         if (!isEnabled)
             return;
 
+        // TODO: Refactor this code for to improve mantainability
         if (isInterpolating) {
             interpTimer--;
             if (interpTimer <= 0) {
@@ -53,6 +55,10 @@ public abstract class Animation {
                 targscl.scl(1 - alpha);
                 this.position = origscl.add(targscl);
             }
+        } else {
+            if (!keyFrames.isEmpty()) {
+                startInterpNextFrame();
+            }
         }
     }
 
@@ -62,8 +68,7 @@ public abstract class Animation {
     public void interpolate(List<KeyFrame> otherFrames) {
         if (otherFrames.isEmpty())
             return;
-        this.keyFrames = otherFrames;
-        startInterpNextFrame();
+        this.keyFrames.addAll(keyFrames.size(), otherFrames);
     }
 
     private void startInterpNextFrame() {

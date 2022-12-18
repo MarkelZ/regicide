@@ -29,8 +29,8 @@ public class Player extends Piece {
         animation = new SpriteAnimation(texture, worldPos, 16, 16, 8);
 
         // Move pattern
-        // this.movePattern = new KingPattern();
-        this.movePattern = new RookPattern();
+        this.movePattern = new KingPattern();
+        // this.movePattern = new RookPattern();
 
         // Tile selector;
         tileSelector = new PlayerTileSelector(this, gs);
