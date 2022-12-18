@@ -6,6 +6,7 @@ import com.regicide.board.Piece;
 import com.regicide.fight.ActionType;
 import com.regicide.fight.DamageType;
 import com.regicide.movement.TilePosition;
+import com.regicide.player.Player;
 
 public abstract class Item implements BoardObserver {
     protected Texture sprite;
@@ -16,7 +17,17 @@ public abstract class Item implements BoardObserver {
     }
 
     @Override
+    public void pieceDied(Piece piece) {
+        // Default to no op
+    }
+
+    @Override
     public void playerAction(TilePosition origin, TilePosition target, ActionType action) {
+        // Default to no op
+    }
+
+    @Override
+    public void playerDamage(Player player, DamageType damage, float value) {
         // Default to no op
     }
 

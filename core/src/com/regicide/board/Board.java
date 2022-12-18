@@ -10,17 +10,18 @@ import com.regicide.IUpdatableDrawable;
 import com.regicide.board.pieces.Bishop;
 import com.regicide.board.pieces.Elephant;
 import com.regicide.board.pieces.Knight;
+import com.regicide.fight.DamageType;
 import com.regicide.movement.TilePosition;
 import com.regicide.player.Player;
 import com.regicide.scene.GameplayScene;
 
 public class Board implements IUpdatableDrawable {
     // List of pieces
-    public List<Piece> pieceList;
+    public final List<Piece> pieceList;
 
     // List of pieces to add and to remove
-    protected List<Piece> piecesToAdd;
-    protected List<Piece> piecesToRmv;
+    protected final List<Piece> piecesToAdd;
+    protected final List<Piece> piecesToRmv;
 
     // Piece buffers
     public Piece[][] pieceGrid;
@@ -44,10 +45,13 @@ public class Board implements IUpdatableDrawable {
     protected Player player;
 
     // Game state
-    protected GameplayScene gs;
+    protected final GameplayScene gs;
 
     // List of pieces that are performing an animation
-    protected List<Piece> animatingPieces;
+    protected final List<Piece> animatingPieces;
+
+    // Event manager
+    protected final BoardEventManager eventManager;
 
     public Board(GameplayScene gs) {
         this.gs = gs;
@@ -60,6 +64,10 @@ public class Board implements IUpdatableDrawable {
         pieceList = new ArrayList<>();
         piecesToAdd = new ArrayList<>();
         piecesToRmv = new ArrayList<>();
+
+        animatingPieces = new ArrayList<>();
+
+        eventManager = new BoardEventManager();
     }
 
     // Debug
@@ -80,8 +88,6 @@ public class Board implements IUpdatableDrawable {
 
         player = new Player(gs, new TilePosition(10, 10));
         addPiece(player);
-
-        animatingPieces = new ArrayList<>();
     }
 
     @Override
@@ -179,17 +185,11 @@ public class Board implements IUpdatableDrawable {
         }
 
         // Animation
-        animatingPieces = new ArrayList<>(pieceList);
-    }
-
-    public Player getPlayer() {
-        return player;
+        animatingPieces.clear();
+        animatingPieces.addAll(pieceList);
     }
 
     public boolean isAnyPieceAnimating() {
-        if (animatingPieces == null) {
-            return false;
-        }
 
         for (Piece piece : animatingPieces) {
             if (piece.isAnimating()) {
@@ -198,5 +198,28 @@ public class Board implements IUpdatableDrawable {
         }
 
         return false;
+    }
+
+    // Attack attackedPos with damagetype and value.
+    // Notice that actor is the attacking piece, not the piece that is being
+    // attacked.
+    public void attackPiece(Piece actor, TilePosition attackedPos, DamageType damage, float value) {
+        Piece attacked = pieceGrid[attackedPos.i][attackedPos.j];
+        if (attacked != null) {
+            attacked.takeDamage(actor, damage, value);
+        }
+        eventManager.notifyTilePositionAttacked(actor, attackedPos, damage, value);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void addEventObserver(BoardObserver obs) {
+        eventManager.addObserver(obs);
+    }
+
+    public void removeEventObserver(BoardObserver obs) {
+        eventManager.removeObserver(obs);
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.regicide.IUpdatableDrawable;
 import com.regicide.animation.KeyFrame;
 import com.regicide.animation.SpriteAnimation;
+import com.regicide.fight.DamageType;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.MovePattern;
 import com.regicide.movement.TilePosition;
@@ -65,16 +66,8 @@ public abstract class Piece implements IUpdatableDrawable {
         this.moveTo(boardPos);
     }
 
-    public void setMovePattern(MovePattern pattern) {
-        this.movePattern = pattern;
-    }
+    public void takeDamage(Piece piece, DamageType damage, float value) {
 
-    public void setAnimation(SpriteAnimation animation) {
-        this.animation = animation;
-    }
-
-    public MoveList getMoves() {
-        return movePattern.getMoves(board, boardPos.i, boardPos.j);
     }
 
     public void moveTo(TilePosition pos) {
@@ -124,6 +117,18 @@ public abstract class Piece implements IUpdatableDrawable {
     public void moveToNextPos() {
         animateAndMoveTo(nextPos, 20);
         nextPos = null;
+    }
+
+    public void setMovePattern(MovePattern pattern) {
+        this.movePattern = pattern;
+    }
+
+    public void setAnimation(SpriteAnimation animation) {
+        this.animation = animation;
+    }
+
+    public MoveList getMoves() {
+        return movePattern.getMoves(board, boardPos.i, boardPos.j);
     }
 
     public Kind getKind() {
