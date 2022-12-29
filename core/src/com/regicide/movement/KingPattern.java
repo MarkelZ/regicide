@@ -19,4 +19,7 @@ public class KingPattern extends MovePattern {
         return getLeaperMoves(board, i, j, leapPattern);
     }
 
+    public TilePosition[] getLeapPattern() {
+        return leapPattern;
+    }
 }

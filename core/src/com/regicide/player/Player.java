@@ -6,6 +6,8 @@ import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
 import com.regicide.input.InputManager;
 import com.regicide.input.InputManager.Action;
+import com.regicide.item.ItemManager;
+import com.regicide.item.items.AutoDash;
 import com.regicide.movement.KingPattern;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.RookPattern;
@@ -15,11 +17,17 @@ import com.regicide.scene.GameplayScene.State;
 
 public class Player extends Piece {
 
+    // Player's stats
+    protected final PlayerStats stats;
+
     // Player's inventory
-    protected Inventory inventory;
+    protected final Inventory inventory;
 
     // Tile selector
-    protected PlayerTileSelector tileSelector;
+    protected final PlayerTileSelector tileSelector;
+
+    // Item manager
+    protected final ItemManager itemManager;
 
     public Player(GameplayScene gs, TilePosition pos) {
         super(gs, Kind.Friendly, pos);
@@ -32,13 +40,27 @@ public class Player extends Piece {
         this.movePattern = new KingPattern();
         // this.movePattern = new RookPattern();
 
+        // Stats
+        stats = new PlayerStats();
+
+        // Inventory
+        inventory = new Inventory();
+
         // Tile selector;
         tileSelector = new PlayerTileSelector(this, gs);
         tileSelector.refreshMoveList();
+
+        // Item manager
+        itemManager = new ItemManager(gs.getBoard());
+        // TODO: this is for testing items
+        itemManager.addItem(new AutoDash(gs));
     }
 
     @Override
     public void update(float tdelta) {
+        // Update items
+        itemManager.update(tdelta);
+
         // Update animations
         animation.update(tdelta);
 

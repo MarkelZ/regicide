@@ -1,5 +1,5 @@
 package com.regicide.player;
 
 public class Inventory {
-    // Contains pickups
+    // Contains pickups and consumables
 }

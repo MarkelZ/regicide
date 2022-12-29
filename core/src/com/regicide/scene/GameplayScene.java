@@ -13,6 +13,7 @@ import com.regicide.animation.AnimationManager;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Board;
 import com.regicide.camera.GameplayCamManager;
+import com.regicide.fight.ActionType;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.TilePosition;
 import com.regicide.music.MusicInterpolator;
@@ -98,6 +99,7 @@ public class GameplayScene extends Scene {
                     Player player = board.getPlayer();
                     MoveList ml = player.getSelectionList();
                     if (TilePosition.listContains(ml.canMoveTo, pos)) {
+                        board.getEventManager().notifyPlayerAction(player.boardPos, pos, ActionType.Move);
                         player.animateAndMoveTo(pos, 20);
                         state = State.PlayerTransitioning;
                     }

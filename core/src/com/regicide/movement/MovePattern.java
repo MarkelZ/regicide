@@ -33,9 +33,7 @@ public abstract class MovePattern {
             int ni = i + pos.i;
             int nj = j + pos.j;
 
-            if (board.isWithinBounds(ni, nj) && board.pieceGrid[ni][nj] == null) {
-                result.canMoveTo.add(new TilePosition(ni, nj));
-            }
+            checkCollision(board, ni, nj, result);
         }
 
         return result;

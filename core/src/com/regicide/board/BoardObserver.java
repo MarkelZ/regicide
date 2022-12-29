@@ -17,4 +17,7 @@ public interface BoardObserver {
 
     // Player took damage
     public void playerDamage(Player player, DamageType damage, float value);
+
+    // Enemy turn just ended and player's is going to start
+    public void enemiesJustMoved();
 }

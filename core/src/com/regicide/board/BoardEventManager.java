@@ -42,9 +42,15 @@ public class BoardEventManager {
         }
     }
 
-    public void playerDamage(Player player, DamageType damage, float value) {
+    public void notifyPlayerDamage(Player player, DamageType damage, float value) {
         for (BoardObserver obs : observers) {
             obs.playerDamage(player, damage, value);
+        }
+    }
+
+    public void notifyEnemyJustMoved() {
+        for (BoardObserver obs : observers) {
+            obs.enemiesJustMoved();
         }
     }
 }

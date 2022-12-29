@@ -74,11 +74,11 @@ public class Board implements IUpdatableDrawable {
     public void generateTestWorld() {
         rooms.addVertex(new Room(width, height));
 
-        Knight knight = new Knight(gs, new TilePosition(3, 3));
-        addPiece(knight);
+        // Knight knight = new Knight(gs, new TilePosition(3, 3));
+        // addPiece(knight);
 
-        Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
-        addPiece(bishop);
+        // Bishop bishop = new Bishop(gs, new TilePosition(2, 10));
+        // addPiece(bishop);
 
         // Rook rook = new Rook(gs, new TilePosition(6, 5));
         // addPiece(rook);
@@ -187,6 +187,9 @@ public class Board implements IUpdatableDrawable {
         // Animation
         animatingPieces.clear();
         animatingPieces.addAll(pieceList);
+
+        // Enemy move event
+        eventManager.notifyEnemyJustMoved();
     }
 
     public boolean isAnyPieceAnimating() {
@@ -228,5 +231,10 @@ public class Board implements IUpdatableDrawable {
 
     public void removeEventObserver(BoardObserver obs) {
         eventManager.removeObserver(obs);
+    }
+
+    // TODO: Have gameplayscene notify board of events instead
+    public BoardEventManager getEventManager() {
+        return eventManager;
     }
 }
