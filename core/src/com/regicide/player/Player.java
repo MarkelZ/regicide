@@ -1,16 +1,21 @@
 package com.regicide.player;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Piece;
+import com.regicide.fight.DamageType;
 import com.regicide.input.InputManager;
 import com.regicide.input.InputManager.Action;
 import com.regicide.item.ItemManager;
 import com.regicide.item.items.AutoDash;
+import com.regicide.movement.CompoundMove;
 import com.regicide.movement.KingPattern;
+import com.regicide.movement.KnightPattern;
 import com.regicide.movement.MoveList;
-import com.regicide.movement.RookPattern;
+import com.regicide.movement.MovePattern;
 import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
 import com.regicide.scene.GameplayScene.State;
@@ -37,8 +42,12 @@ public class Player extends Piece {
         animation = new SpriteAnimation(texture, worldPos, 16, 16, 8);
 
         // Move pattern
-        this.movePattern = new KingPattern();
+        // this.movePattern = new KingPattern();
         // this.movePattern = new RookPattern();
+        ArrayList<MovePattern> movePatterns = new ArrayList<>();
+        movePatterns.add(new KingPattern());
+        movePatterns.add(new KnightPattern());
+        this.movePattern = new CompoundMove(movePatterns);
 
         // Stats
         stats = new PlayerStats();
@@ -68,9 +77,7 @@ public class Player extends Piece {
         tileSelector.update(tdelta);
 
         // Debug
-        if (InputManager.isActionJustPressed(Action.Move))
-
-        {
+        if (InputManager.isActionJustPressed(Action.Move)) {
             TilePosition target = new TilePosition(boardPos.i + 1, boardPos.j + 1);
             animatePieceAttack(target, 20);
         }
@@ -84,6 +91,12 @@ public class Player extends Piece {
         if (gs.getState() == State.PlayerThinking) {
             tileSelector.draw(batch);
         }
+    }
+
+    @Override
+    public void takeDamage(Piece piece, DamageType damage, float value) {
+        stats.health -= value;
+        // TODO
     }
 
     public MoveList getMoveList() {
@@ -106,6 +119,10 @@ public class Player extends Piece {
 
     public void refreshSelector() {
         tileSelector.refreshMoveList();
+    }
+
+    public PlayerStats getStats() {
+        return stats;
     }
 
 }

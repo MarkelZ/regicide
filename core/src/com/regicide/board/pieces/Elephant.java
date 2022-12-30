@@ -9,6 +9,8 @@ import com.regicide.scene.GameplayScene;
 public class Elephant extends HostilePiece {
     protected static Texture texture; // should be added to spriteanimation
 
+    protected float maxhHealth;
+
     public Elephant(GameplayScene gs, TilePosition pos) {
         super(gs, pos);
 
@@ -18,6 +20,8 @@ public class Elephant extends HostilePiece {
 
         // initialize(new KingPattern(), texture);
         initialize(new KingPattern(), texture);
+
+        this.health = maxhHealth;
     }
 
     @Override

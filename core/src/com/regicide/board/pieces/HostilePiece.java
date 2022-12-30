@@ -15,7 +15,7 @@ import com.regicide.movement.TilePosition;
 import com.regicide.scene.GameplayScene;
 
 public abstract class HostilePiece extends Piece {
-    private float healthbar;
+    protected float health;
 
     public HostilePiece(GameplayScene gs, TilePosition pos) {
         super(gs, Kind.Hostile, pos);
@@ -48,8 +48,8 @@ public abstract class HostilePiece extends Piece {
     // such as being immune to certain damage types
     @Override
     public void takeDamage(Piece piece, DamageType damage, float value) {
-        healthbar -= value;
-        if (healthbar <= 0) {
+        health -= value;
+        if (health <= 0) {
             die();
         }
     }

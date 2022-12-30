@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 import com.regicide.board.Board;
 import com.regicide.fight.ActionType;
+import com.regicide.fight.DamageType;
 import com.regicide.item.Item;
 import com.regicide.movement.KingPattern;
 import com.regicide.movement.MoveList;
@@ -45,6 +46,7 @@ public class AutoDash extends Item {
             if (dist2 + TH < mindist2) {
                 closest.clear();
                 closest.add(pos);
+                mindist2 = dist2;
             }
             // Otherwise, if pos is close enough, include it in the closest
             else if (dist2 <= mindist2 + TH) {
@@ -54,15 +56,18 @@ public class AutoDash extends Item {
 
         // Check if that tile can be attacked
         Board board = gs.getBoard();
+        Player player = board.getPlayer();
         MoveList moves = pattern.getMoves(board, target.i, target.j);
-        System.out.println(moves.canAttack);
         for (TilePosition pos : closest) {
             TilePosition attackedPos = new TilePosition(pos.i + target.i, pos.j + target.j);
-            System.out.println(attackedPos);
             if (TilePosition.listContains(moves.canAttack, attackedPos)) {
-                // TODO: have the player attack the enemy in the position
-                System.out.println("AutoDash attacks tile position: ");
+                // TODO: This is for debugging
+                System.out.println("AutoDash attacks direction: ");
                 System.out.println(pos);
+
+                // TODO: This sould go in player and a specialized board event should be
+                // notified
+                board.attackPiece(player, attackedPos, DamageType.Melee, player.getStats().attackDamage);
             }
         }
     }

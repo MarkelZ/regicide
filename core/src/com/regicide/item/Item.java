@@ -1,7 +1,6 @@
 package com.regicide.item;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.regicide.board.Board;
 import com.regicide.board.BoardObserver;
 import com.regicide.board.Piece;
 import com.regicide.fight.ActionType;
