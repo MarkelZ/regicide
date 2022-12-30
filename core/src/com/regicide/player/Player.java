@@ -11,6 +11,7 @@ import com.regicide.input.InputManager;
 import com.regicide.input.InputManager.Action;
 import com.regicide.item.ItemManager;
 import com.regicide.item.items.AutoDash;
+import com.regicide.item.items.DeathTouch;
 import com.regicide.movement.CompoundMove;
 import com.regicide.movement.KingPattern;
 import com.regicide.movement.KnightPattern;
@@ -63,6 +64,7 @@ public class Player extends Piece {
         itemManager = new ItemManager(gs.getBoard());
         // TODO: this is for testing items
         itemManager.addItem(new AutoDash(gs));
+        itemManager.addItem(new DeathTouch(gs));
     }
 
     @Override

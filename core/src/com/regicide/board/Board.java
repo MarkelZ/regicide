@@ -85,6 +85,10 @@ public class Board implements IUpdatableDrawable {
 
         Elephant elephant = new Elephant(gs, new TilePosition(6, 7));
         addPiece(elephant);
+        Elephant elephant2 = new Elephant(gs, new TilePosition(9, 7));
+        addPiece(elephant2);
+        Elephant elephant3 = new Elephant(gs, new TilePosition(1, 2));
+        addPiece(elephant3);
 
         player = new Player(gs, new TilePosition(10, 10));
         addPiece(player);

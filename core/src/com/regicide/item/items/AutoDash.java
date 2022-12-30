@@ -32,6 +32,10 @@ public class AutoDash extends Item {
 
     @Override
     public void playerAction(TilePosition origin, TilePosition target, ActionType action) {
+        // Do nothing if the action was not basic movement
+        if (action != ActionType.Move)
+            return;
+
         // Find the direction in which the player moved
         Vector2 direction = new Vector2(target.i - origin.i, target.j - origin.j);
 
@@ -67,6 +71,8 @@ public class AutoDash extends Item {
 
                 // TODO: This sould go in player and a specialized board event should be
                 // notified
+                // Also, attackpiece should happen after the animation is over
+                player.animatePieceAttack(attackedPos, 20);
                 board.attackPiece(player, attackedPos, DamageType.Melee, player.getStats().attackDamage);
             }
         }

@@ -99,9 +99,12 @@ public class GameplayScene extends Scene {
                     Player player = board.getPlayer();
                     MoveList ml = player.getSelectionList();
                     if (TilePosition.listContains(ml.canMoveTo, pos)) {
-                        board.getEventManager().notifyPlayerAction(player.boardPos, pos, ActionType.Move);
+                        TilePosition origin = player.boardPos;
                         player.animateAndMoveTo(pos, 20);
                         state = State.PlayerTransitioning;
+                        // TODO: This should happen after player is done animating
+                        // Should add new state that comes right after this one, for items doing stuff
+                        board.getEventManager().notifyPlayerAction(origin, pos, ActionType.Move);
                     }
                 }
                 break;
