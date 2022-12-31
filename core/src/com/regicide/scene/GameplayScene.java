@@ -14,6 +14,7 @@ import com.regicide.animation.SpriteAnimation;
 import com.regicide.board.Board;
 import com.regicide.camera.GameplayCamManager;
 import com.regicide.fight.ActionType;
+import com.regicide.hud.HUD;
 import com.regicide.movement.MoveList;
 import com.regicide.movement.TilePosition;
 import com.regicide.music.MusicInterpolator;
@@ -39,6 +40,8 @@ public class GameplayScene extends Scene {
     protected GameplayCamManager camManager;
 
     protected Board board;
+
+    protected final HUD hud;
 
     protected ArrayList<Particle> particles;
     protected ArrayList<Particle> particlesToAdd;
@@ -67,10 +70,16 @@ public class GameplayScene extends Scene {
 
         // Game state
         state = State.PlayerThinking;
+
+        // Create the HUD
+        hud = new HUD(this);
     }
 
     @Override
     public void update(float tdelta) {
+        // Update HUD
+        hud.update(tdelta);
+
         // Update utils
         animationManager.update(tdelta);
         musicPlayer.update(tdelta);
@@ -121,8 +130,6 @@ public class GameplayScene extends Scene {
                     state = State.PlayerThinking;
                 }
                 break;
-            default:
-                System.out.println("WARNING: Gameplay scene in unknown state.");
         }
     }
 
@@ -135,6 +142,9 @@ public class GameplayScene extends Scene {
         for (Particle p : particles) {
             p.draw(batch);
         }
+
+        // Draw HUD
+        hud.draw(batch);
     }
 
     public void addParticle(Particle particle) {
@@ -157,10 +167,6 @@ public class GameplayScene extends Scene {
 
     public Board getBoard() {
         return board;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
     }
 
     public State getState() {
